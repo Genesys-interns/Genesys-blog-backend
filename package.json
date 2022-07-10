@@ -1,0 +1,19 @@
+{
+  "name": "genesys_blog_backend",
+  "version": "1.0.0",
+  "description": "backend codebase for genysis blog",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Genesys-interns/Genesys-blog-backend.git"
+  },
+  "author": "Emmanuel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Genesys-interns/Genesys-blog-backend/issues"
+  },
+  "homepage": "https://github.com/Genesys-interns/Genesys-blog-backend#readme"
+}
