@@ -4,7 +4,8 @@
   "description": "backend codebase for genysis blog",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "npx eslint ./*.js --fix"
   },
   "repository": {
     "type": "git",
@@ -12,6 +13,12 @@
   },
   "author": "Emmanuel",
   "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.18",
+    "eslint": "^8.15.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0"
+  },
   "bugs": {
     "url": "https://github.com/Genesys-interns/Genesys-blog-backend/issues"
   },
