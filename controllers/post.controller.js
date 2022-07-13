@@ -17,33 +17,31 @@ class PostController {
     return res.status(201).send({ status: true, message: 'post created successfully', body: post });
   }
 
-    async getPosts(req, res) {
-    //     return res.status(200).send({ staus: true, message: 'no posts found' });
-    // }
-//     const post = await postService.getPost();
-//     if (_.isEmpty(post)) {
-    //    return res.status(200).send({ staus: true, message: 'no posts found' });
-    //  }
-//     return res.status(200).send({
-//       status: true,
-//       body: post.map((doc) => ({
-//         title: doc.title,
-//         price: doc.description,
-//         imageUrl: `${process.env.production_route}${doc.image}`,
-//         description: doc.description,
-//         category: doc.category,
+  async getPosts(req, res) {
+    const post = await postService.getPost();
+    if (_.isEmpty(post)) {
+      return res.status(200).send({ staus: true, message: 'no posts found' });
+    }
+    return res.status(200).send({
+      status: true,
+      body: post.map((doc) => ({
+        title: doc.title,
+        price: doc.description,
+        imageUrl: `${process.env.production_route}${doc.image}`,
+        description: doc.description,
+        category: doc.category,
 
-//         body: doc.body,
-//         userId: doc.userId,
+        body: doc.body,
+        userId: doc.userId,
 
-//         _id: doc._id,
-//         request: {
-//           type: 'GET',
-//           url: `${process.env.production_route}${doc.image}`
-//         }
-//       }))
-//     });
-//   }
+        _id: doc._id,
+        request: {
+          type: 'GET',
+          url: `${process.env.production_route}${doc.image}`
+        }
+      }))
+    });
+  }
 }
 
 export default new PostController();
