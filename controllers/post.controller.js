@@ -17,11 +17,13 @@ class PostController {
     return res.status(201).send({ status: true, message: 'post created successfully', body: post });
   }
 
-  async getPosts(req, res) {
+    async getPosts(req, res) {
+        return res.status(200).send({ staus: true, message: 'no posts found' });
+    }
 //     const post = await postService.getPost();
 //     if (_.isEmpty(post)) {
-       return res.status(200).send({ staus: true, message: 'no posts found' });
-     }
+    //    return res.status(200).send({ staus: true, message: 'no posts found' });
+    //  }
 //     return res.status(200).send({
 //       status: true,
 //       body: post.map((doc) => ({
