@@ -6,6 +6,8 @@ class PostService {
     const post = await postModel.create(data);
     return post;
   }
+
+ 
 }
 
 export default new PostService();
