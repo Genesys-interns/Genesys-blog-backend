@@ -7,8 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "npx eslint ./*.js --fix",
-    "start":"node app.js",
-    "dev":"nodemon app.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "repository": {
     "type": "git",
@@ -17,13 +17,22 @@
   "author": "Emmanuel",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^2.0.18",
     "eslint": "^8.15.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.26.0"
+    "eslint-plugin-import": "^2.26.0",
+    "nodemon": "^2.0.18"
   },
   "bugs": {
     "url": "https://github.com/Genesys-interns/Genesys-blog-backend/issues"
   },
-  "homepage": "https://github.com/Genesys-interns/Genesys-blog-backend#readme"
+  "homepage": "https://github.com/Genesys-interns/Genesys-blog-backend#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "mongoose": "^6.4.4",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "pino": "^8.1.0"
+  }
 }
