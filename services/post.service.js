@@ -7,7 +7,7 @@ class PostService {
     return post;
   }
 
-  async getBlog() {
+  async getPost() {
     const posts = await postModel.find();
     return posts;
   }
