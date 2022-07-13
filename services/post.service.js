@@ -7,7 +7,10 @@ class PostService {
     return post;
   }
 
- 
+  async getBlog() {
+    const posts = await postModel.find();
+    return posts;
+  }
 }
 
 export default new PostService();
