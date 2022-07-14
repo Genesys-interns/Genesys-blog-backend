@@ -1,7 +1,7 @@
 const userSchema = Joi.object().keys({
   email: Joi.string().email().required(),
   username: Joi.string().required(),
-  password: Joi.string().regex(/^[a-zA-Z0-9]{6,30}$/).required(),
+  password: Joi.string().required(),
   confirmationPassword: Joi.any().valid(Joi.ref('password')).required()
 });
 

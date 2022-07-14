@@ -1,4 +1,5 @@
-const validator = (schema, reqbody = 'body') => async (req, res, next) => {
+/* eslint-disable func-names */
+const validator = (schema, reqbody = 'body') => async function (req, res, next) {
   const validated = await schema.validateAsync(req.body);
   try {
     if (reqbody === 'body') {
