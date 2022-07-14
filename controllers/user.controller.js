@@ -2,7 +2,6 @@
 /* eslint-disable import/extensions */
 import _ from 'lodash';
 import bcrypt from 'bcrypt';
-import mongoose from 'mongoose';
 import UserService from '../services/user.service.js';
 
 class UserController {
@@ -23,7 +22,7 @@ class UserController {
       }
     };
     const data = {
-      
+
       email: req.body.email,
       password: hashPassword,
       confirmPassword: req.body.password,

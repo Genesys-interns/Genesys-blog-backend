@@ -1,8 +1,9 @@
 /* eslint-disable import/extensions */
 import express from 'express';
-import signUpRoute from './signup.routes';
+import noteRouter from './post.routes.js';
 
 const router = express.Router();
-router.use('/signup', signUpRoute);
+
+router.use('/post', noteRouter);
 
 export default router;

@@ -1,17 +1,15 @@
-import Joi from 'joi';
-import validateUserSchema from './user.validator';
-
-const validator = Joi.validate(user, validateUserSchema, (err, result) => {
-  if (err) {
-    result.send({
-      success: false,
-      message: 'Validation Error'
-    });
+const validator = (schema, reqbody = 'body') => async (req, res, next) => {
+  const validated = await schema.validateAsync(req.body);
+  try {
+    if (reqbody === 'body') {
+      req.body = validated;
+    } else {
+      req.query = validated;
+    }
+    next();
+  } catch (e) {
+    return res.status(500).send({ message: false, body: e });
   }
-  result.send({
-    success: true,
-    message: 'Validation Success'
-  });
-});
+};
 
 export default validator;
