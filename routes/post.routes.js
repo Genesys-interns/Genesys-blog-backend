@@ -17,7 +17,11 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 postRouter.post('/', upload.single('image'), postController.createPost);
+<<<<<<< HEAD
 postRouter.get('/', postController.getPosts);
+=======
+postRouter.get( '/', postController.getPosts );
+>>>>>>> blog_posts
 
 
 export default postRouter;
