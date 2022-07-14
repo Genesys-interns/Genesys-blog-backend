@@ -9,7 +9,7 @@ class UserService {
   }
 
   async findByEmail(data) {
-    const user = await User.find({ email: data.email });
+    const user = await User.findOne({ email: data.email });
     return user;
   }
 }
