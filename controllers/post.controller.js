@@ -4,7 +4,6 @@ import postService from '../services/post.service.js';
 
 class PostController {
   async createPost(req, res, next) {
-    console.log(req.file);
     const body = {
       title: req.body.title,
       description: req.body.description,
@@ -18,7 +17,7 @@ class PostController {
   }
 
   async getPosts(req, res) {
-    const post = await postService.getPosts();
+    const post = await postService.getPost();
     if (_.isEmpty(post)) {
       return res.status(200).send({ staus: true, message: 'no posts found' });
     }
