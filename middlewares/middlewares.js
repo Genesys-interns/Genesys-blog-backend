@@ -16,7 +16,7 @@ const middleware = (app) => {
   app.use(express.static('uploads'));
   app.use(cors());
   database();
-  app.use(errorHandler);
+  
   app.use(router);
   app.use('*', (req, res) => {
     res.status(200).send('Server is up and running,check the API documentation');
