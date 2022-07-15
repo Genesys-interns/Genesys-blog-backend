@@ -40,7 +40,6 @@ class UserController {
 
   async loginUser(req, res) {
       const user = await UserService.findByEmail(req.body);
-      console.log(user);
     if (_.isEmpty(user)) {
       return res.status(404).send({ success: false, body: 'user does not exist' });
     }
