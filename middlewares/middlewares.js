@@ -1,7 +1,10 @@
+/* eslint-disable import/extensions */
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import session from 'express-session';
+import passport from 'passport';
 import database from '../config/db.config.js';
 import router from '../routes/index.routes.js';
 
@@ -11,8 +14,11 @@ const middleware = (app) => {
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(morgan());
   app.use(express.static('uploads'));
- app.use(cors());
+  app.use(cors());
   database();
+  app.use(session({ secret: 'SECRET' }));
+  app.use(passport.initialize());
+  app.use(passport.session());
   app.use(router);
   app.use('*', (req, res) => {
     res.status(200).send('Server is up and running,check the API documentation');
