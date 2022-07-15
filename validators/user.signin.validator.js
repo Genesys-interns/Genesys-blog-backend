@@ -1,4 +1,4 @@
-import Joi from 'Joi';
+import Joi from 'joi';
 
 const validateUserSignInSchema = Joi.object().keys({
   email: Joi.string()
