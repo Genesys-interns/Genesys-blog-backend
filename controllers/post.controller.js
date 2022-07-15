@@ -4,7 +4,6 @@ import postService from '../services/post.service.js';
 
 class PostController {
   async createPost(req, res, next) {
-    console.log(req.file);
     const body = {
       title: req.body.title,
       description: req.body.description,
