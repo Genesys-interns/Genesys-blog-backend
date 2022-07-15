@@ -1,3 +1,5 @@
+/* eslint-disable import/no-cycle */
+/* eslint-disable import/extensions */
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
@@ -12,13 +14,14 @@ const middleware = (app) => {
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(morgan());
   app.use(express.static('uploads'));
- app.use(cors());
+  app.use(cors());
   database();
   app.use(errorHandler);
   app.use(router);
   app.use('*', (req, res) => {
     res.status(200).send('Server is up and running,check the API documentation');
   });
+  app.use(errorHandler);
 };
 
 export default middleware;

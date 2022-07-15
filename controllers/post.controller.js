@@ -17,12 +17,9 @@ class PostController {
     return res.status(201).send({ status: true, message: 'post created successfully', body: post });
   }
 
+
   async getPosts(req, res) {
-<<<<<<< HEAD
-    const post = await postService.getPost();
-=======
     const post = await postService.getPosts();
->>>>>>> blog_posts
     if (_.isEmpty(post)) {
       return res.status(200).send({ staus: true, message: 'no posts found' });
     }
