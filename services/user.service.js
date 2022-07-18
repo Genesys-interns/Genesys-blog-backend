@@ -4,6 +4,7 @@ import User from '../models/user.model.js';
 
 class Userservice {
   async createG(data) {
+    console.log('mmmm');
     const newUser = await User.create(data);
     return newUser;
   }

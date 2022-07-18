@@ -36,7 +36,7 @@ const passportConfig = () => {
 
         done(null, newUser);
       } catch (err) {
-        console.log(err);
+       // console.log(err);
       }
     })
   ));
