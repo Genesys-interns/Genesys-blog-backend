@@ -21,19 +21,19 @@ const user = new mongoose.Schema({
     type: 'String',
     required: true
 
-  },
-  googleId: {
-    required: true,
-    type: String
-  },
-  name: {
-    required: true,
-    type: String
-  },
-  photo: {
-    required: true,
-    type: String
   }
+  // googleId: {
+  //   required: true,
+  //   type: String
+  // },
+  // name: {
+  //   required: true,
+  //   type: String
+  // },
+  // photo: {
+  //   required: true,
+  //   type: String
+  // }
 }, { timestamps: true });
 
 
