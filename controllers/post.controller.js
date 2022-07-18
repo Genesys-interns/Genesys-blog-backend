@@ -1,5 +1,6 @@
 /* eslint-disable import/extensions */
 /* eslint-disable class-methods-use-this */
+/* eslint-disable no-unused-vars */
 import _ from 'lodash';
 import postService from '../services/post.service.js';
 
