@@ -9,7 +9,7 @@ class UserController {
   async create(req, res) {
     const user = UserService.findByEmail(req.body);
     if (!_.isEmpty(user)) {
-      return res.status(404).send({
+      return res.status(400).send({
         success: false,
         message: 'User already exists'
       });
