@@ -21,6 +21,15 @@ const user = new mongoose.Schema({
     type: 'String',
     required: true
 
+  },
+  googleId: {
+   
+    type: String
+  },
+  
+  photo: {
+   
+    type: String
   }
   // googleId: {
   //   required: true,
@@ -33,7 +42,7 @@ const user = new mongoose.Schema({
   // photo: {
   //   required: true,
   //   type: String
-  // }
+  //}
 }, { timestamps: true });
 
 

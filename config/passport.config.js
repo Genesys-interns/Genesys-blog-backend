@@ -22,7 +22,7 @@ const passportConfig = () => {
 
         const userData = {
           googleId: profile.id,
-          name: profile.displayName,
+          firstName: profile.displayName,
           photo: profile.photos[0].value
         };
 
