@@ -94,6 +94,20 @@ class PostController {
       }))
     });
   }
+
+  async deletePost(req, res) {
+    const post = await postService.findAndDeletePostById;
+    if (_.isEmpty(post)) {
+      res.status(404).send({
+        status: false,
+        message: 'Post does not exist, pleaase create a post before attempting to delete'
+      });
+    }
+    res.status(200).send({
+      success: true,
+      message: 'Post deleted successfully'
+    });
+  }
 }
 
 export default new PostController();
