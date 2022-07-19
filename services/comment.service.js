@@ -6,5 +6,10 @@ class CommentServices {
     const comment = await commentModel.create(data);
     return comment;
   }
+
+  async getComment(id) {
+    const comment = await commentModel.find({id});
+    return comment;
+  }
 }
 export default new CommentServices();
