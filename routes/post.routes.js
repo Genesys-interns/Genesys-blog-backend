@@ -11,10 +11,10 @@ import commentvalidator from '../validators/comment.validator.js';
 const postRouter = express.Router();
 
 const storage = multer.diskStorage({
-  destination:function(req, file, cb) {
+  destination(req, file, cb) {
     cb(null, 'uploads/');
   },
-  filename:function(req, file, cb) {
+  filename(req, file, cb) {
     cb(null, file.originalname);
   }
 });
@@ -27,5 +27,7 @@ postRouter.get('/', postController.getPostByCategories);
 postRouter.post('/comments', checkAuth, validator(commentvalidator), commentController.postComments);
 
 postRouter.get('/:title', postController.articleByTitle);
+
+postRouter.delete('/:id', postController.deletePost);
 
 export default postRouter;

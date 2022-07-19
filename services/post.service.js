@@ -22,6 +22,16 @@ class PostService {
     const post = await postModel.findOne({ title });
     return post;
   }
+
+  async deletePosts(id) {
+    const posts = await postModel.deleteOne({ _id: id });
+    return posts;
+  }
+
+  async findAndDeletePostById(id) {
+    const postId = await postModel.findByIdAndDelete(id);
+    return postId;
+  }
 }
 
 export default new PostService();
