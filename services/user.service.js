@@ -21,7 +21,7 @@ class UserService {
   async findUser({ googleId }) {
     const googleid = await User.findOne({ googleId });
     return googleid;
-  }
+     }
 }
 
 export default new UserService();
