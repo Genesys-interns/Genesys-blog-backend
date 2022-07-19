@@ -108,6 +108,25 @@ class PostController {
       message: 'Post deleted successfully'
     });
   }
-}
 
+  async updateArticle(req, res) {
+    const data = { id: req.params.postid, newData: req.body };
+    const updatedArticle = await postService.updatePost(data.id, data.newData);
+    return res.status(200).send({
+      status: true,
+      message: 'Successfully updated the selected collection',
+      body: {
+        data: { updatedArticle },
+        createdAt: updatedArticle.createdAt,
+        updatedAt: updatedArticle.updatedAt,
+        request: {
+          type: 'GET'
+          // url: `localhost:3000/products/${updatedArticle._id}`
+        }
+      }
+    });
+  }
+}
 export default new PostController();
+/* eslint-disable class-methods-use-this */
+/* eslint-disable import/extensions */
