@@ -1,3 +1,4 @@
+/* eslint-disable import/extensions */
 /* eslint-disable class-methods-use-this */
 import _ from 'lodash';
 import postService from '../services/post.service.js';
@@ -18,21 +19,21 @@ class PostController {
   }
 
   async getPosts(req, res) {
-//     const post = await postService.getPost();
-//     if (_.isEmpty(post)) {
-       return res.status(200).send({ staus: true, message: 'no posts found' });
-     }
-//     return res.status(200).send({
-//       status: true,
-//       body: post.map((doc) => ({
-//         title: doc.title,
-//         price: doc.description,
-//         imageUrl: `${process.env.production_route}${doc.image}`,
-//         description: doc.description,
-//         category: doc.category,
+    //     const post = await postService.getPost();
+    //     if (_.isEmpty(post)) {
+    return res.status(200).send({ staus: true, message: 'no posts found' });
+  }
+  //     return res.status(200).send({
+  //       status: true,
+  //       body: post.map((doc) => ({
+  //         title: doc.title,
+  //         price: doc.description,
+  //         imageUrl: `${process.env.production_route}${doc.image}`,
+  //         description: doc.description,
+  //         category: doc.category,
 
-//         body: doc.body,
-//         userId: doc.userId,
+  //         body: doc.body,
+  //         userId: doc.userId,
 
 //         _id: doc._id,
 //         request: {
