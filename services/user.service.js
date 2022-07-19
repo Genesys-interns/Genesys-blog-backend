@@ -8,7 +8,7 @@ class Userservice {
     return newUser;
   }
 
-  async findUser({ googleId }) {
+  async findUser(googleId) {
     const googleid = await User.findOne({ googleId });
     return googleid;
   }

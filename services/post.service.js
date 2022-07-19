@@ -17,6 +17,11 @@ class PostService {
     const post = await postModel.findOne({ title });
     return post;
   }
+
+  async updatePost(id, data) {
+    const post = await postModel.updateOne({ _id: id }, data, { runValidators: true });
+    return post;
+  }
 }
 
 export default new PostService();
