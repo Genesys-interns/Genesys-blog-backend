@@ -28,6 +28,7 @@ postRouter.get('/', postController.getPosts);
 postRouter.get('/', postController.getPostByCategories);
 
 postRouter.post('/comments', checkAuth, validator(commentvalidator), commentController.postComments);
+postRouter.get('/comments/:id', commentController.getComments);
 
 postRouter.get('/:title', postController.articleByTitle);
 

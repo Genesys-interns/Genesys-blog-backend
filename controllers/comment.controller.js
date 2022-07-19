@@ -11,6 +11,14 @@ class CommentController {
     }
     return res.status(200).send({ status: true, message: 'comment posted successfully' });
   }
+
+  async getComments(req, res) {
+    const comment = await commentService.getComment(req.params.id);
+    if (_.isEmpty(comment)) {
+      return res.status(404).send({ status: false, message: 'no comments available' });
+    }
+    return res.status(200).send({ status: true, body: comment });
+  }
 }
 
 export default new CommentController();
