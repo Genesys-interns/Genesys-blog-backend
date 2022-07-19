@@ -19,5 +19,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 postRouter.post('/', upload.single('image'), validator(postvalidator), postController.createPost);
 postRouter.get('/', postController.getPosts);
+postRouter.get('/category', postController.getPostByCategory);
 
 export default postRouter;
