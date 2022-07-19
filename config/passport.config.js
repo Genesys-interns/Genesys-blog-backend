@@ -25,7 +25,7 @@ const passportConfig = () => {
           firstName: profile.displayName,
           photo: profile.photos[0].value
         };
-        console.log(userData);
+       
 
         const newUser = Userservice.createG(userData)
           .then((_user) => _user)
