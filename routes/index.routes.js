@@ -6,6 +6,6 @@ import userGoogleRouter from './userGoogle.routes.js';
 const router = express.Router();
 
 router.use('/post', noteRouter);
-router.use('/users', userGoogleRouter);
+router.use('/users/google_signin', userGoogleRouter);
 
 export default router;
