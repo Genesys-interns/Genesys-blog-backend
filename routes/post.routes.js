@@ -10,6 +10,9 @@ import commentvalidator from '../validators/comment.validator.js';
 
 const postRouter = express.Router();
 
+postRouter.get('/:title', postController.articleByTitle);
+postRouter.patch('/:postid', postController.updateArticle);
+
 const storage = multer.diskStorage({
   destination:function(req, file, cb) {
     cb(null, 'uploads/');
