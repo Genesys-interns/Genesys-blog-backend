@@ -9,6 +9,7 @@ import postModel from '../models/post.model.js';
 
 class PostController {
   async createPost(req, res, next) {
+    
     const body = {
       title: req.body.title,
       description: req.body.description,
@@ -17,7 +18,9 @@ class PostController {
       body: req.body.body,
       image: req.file.originalname
     };
-    const post = await postService.postBlog(body);
+    
+    const post =
+      await postService.postBlog(body);
     return res.status(201).send({ status: true, message: 'post created successfully', body: post });
   }
 
