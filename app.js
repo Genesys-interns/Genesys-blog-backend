@@ -9,6 +9,5 @@ middleware(app);
 
 const PORT = process.env.PORT || 4011;
 app.listen(PORT, () => {
-    logger.info(`PORT IS LISTENING ON ${PORT}`)
+  logger.info(`PORT IS LISTENING ON ${PORT}`);
 });
-
