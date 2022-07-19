@@ -20,10 +20,12 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage:storage });
-postRouter.post('/',  upload.single('image'), postController.createPost);
+postRouter.post('/',  upload.single('image'),validator(postvalidator) , checkAuth, postController.createPost);
 postRouter.get('/', postController.getPosts);
 postRouter.get('/', postController.getPostByCategories);
 
 postRouter.post('/comments', checkAuth, validator(commentvalidator), commentController.postComments);
+
+postRouter.get('/:title', postController.articleByTitle);
 
 export default postRouter;

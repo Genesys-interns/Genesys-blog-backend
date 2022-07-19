@@ -9,7 +9,7 @@ const passportConfig = () => {
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: 'http://localhost:4011/googleAuth/google/callback',
+      callbackURL: 'https://genesys-blog-api.herokuapp.com/users/google_signin/google/callback',
       passReqToCallback: true
     },
     ((request, accessToken, refreshToken, profile, done) => {

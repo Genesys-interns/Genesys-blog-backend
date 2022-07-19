@@ -9,7 +9,6 @@ import postModel from '../models/post.model.js';
 
 class PostController {
   async createPost(req, res, next) {
-    
     const body = {
       title: req.body.title,
       description: req.body.description,
@@ -18,9 +17,8 @@ class PostController {
       body: req.body.body,
       image: req.file.originalname
     };
-    
-    const post =
-      await postService.postBlog(body);
+
+    const post = await postService.postBlog(body);
     return res.status(201).send({ status: true, message: 'post created successfully', body: post });
   }
 
@@ -47,6 +45,23 @@ class PostController {
           url: `${process.env.production_route}${doc.image}`
         }
       }))
+    });
+  }
+
+  async articleByTitle(req, res) {
+    const { title } = req.params;
+    const article = await postService.findByTitle(title);
+
+    if (!article) {
+      return res.status(404).send({
+        success: false,
+        body: 'Could not find the requested article'
+      });
+    }
+
+    return res.status(201).send({
+      success: true,
+      body: article
     });
   }
 
