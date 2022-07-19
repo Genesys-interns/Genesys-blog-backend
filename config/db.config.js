@@ -1,5 +1,6 @@
 /* eslint-disable import/extensions */
 /* eslint-disable import/no-cycle */
+/* eslint-disable no-unused-vars */
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import logger from '../app.js';

@@ -1,5 +1,7 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable import/extensions */
+/* eslint-disable no-unused-vars */
 import _ from 'lodash';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -9,7 +11,7 @@ class UserController {
   async create(req, res) {
     const user = UserService.findByEmail(req.body);
     if (!_.isEmpty(user)) {
-      return res.status(404).send({
+      return res.status(400).send({
         success: false,
         message: 'User already exists'
       });
