@@ -1,6 +1,11 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable import/extensions */
 /* eslint-disable class-methods-use-this */
+/* eslint-disable no-unused-vars */
 import _ from 'lodash';
+import { response } from 'express';
 import postService from '../services/post.service.js';
+import postModel from '../models/post.model.js';
 
 class PostController {
   async createPost(req, res, next) {
@@ -22,6 +27,36 @@ class PostController {
       return res.status(200).send({ staus: true, message: 'no posts found' });
     }
     return res.status(200).send({
+      status: true,
+      body: post.map((doc) => ({
+        title: doc.title,
+        price: doc.description,
+        imageUrl: `${process.env.production_route}${doc.image}`,
+        description: doc.description,
+        category: doc.category,
+
+        body: doc.body,
+        userId: doc.userId,
+
+        _id: doc._id,
+        request: {
+          type: 'GET',
+          url: `${process.env.production_route}${doc.image}`
+        }
+      }))
+    });
+  }
+
+  async getPostByCategories(req, res) {
+    const post = await postService.getPostByCategory(req.query.category);
+
+    if (!post) {
+      res.status(404).send({
+        status: false,
+        message: 'category does not exist'
+      });
+    }
+    res.status(200).send({
       status: true,
       body: post.map((doc) => ({
         title: doc.title,

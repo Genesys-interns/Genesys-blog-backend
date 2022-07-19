@@ -7,7 +7,6 @@ import validateUserSignUpSchema from "../validators/user.validator.js";
 import validator from "../validators/validator.js";
 import validateUserSignInSchema from "../validators/user.signin.validator.js";
 
-
 const userRouter = express.Router();
 userRouter.post(
   "/",

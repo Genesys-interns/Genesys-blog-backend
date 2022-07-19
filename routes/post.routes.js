@@ -8,17 +8,17 @@ import postvalidator from '../validators/post.validator.js';
 const postRouter = express.Router();
 
 const storage = multer.diskStorage({
-  destination(req, file, cb) {
+  destination:function(req, file, cb) {
     cb(null, 'uploads/');
   },
-  filename(req, file, cb) {
+  filename:function(req, file, cb) {
     cb(null, file.originalname);
   }
 });
 
-const upload = multer({ storage });
-postRouter.post('/',  upload.single('image'), validator(postvalidator),postController.createPost);
-postRouter.post('/', upload.single('image'), postController.createPost);
+const upload = multer({ storage: storage });
+postRouter.post('/', upload.single('image'), validator(postvalidator), postController.createPost);
 postRouter.get('/', postController.getPosts);
+postRouter.get('/', postController.getPostByCategories);
 
 export default postRouter;

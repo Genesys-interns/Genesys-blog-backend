@@ -6,7 +6,7 @@ import userGoogleRouter from './userGoogle.routes.js';
 
 const router = express.Router();
 
-router.use('/post', postRouter); 
+router.use('/post', postRouter);
 router.use('/users', userRouter);
 router.use('/users/google_signin', userGoogleRouter);
 
