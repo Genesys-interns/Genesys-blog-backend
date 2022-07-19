@@ -12,7 +12,7 @@ const postSchema = mongoose.Schema({
 
   },
   category: {
-    default: 'news',
+    required: true,
     type: String,
     enum: ['politics', 'entertainment', 'education', 'technology', 'sports', 'news']
   },

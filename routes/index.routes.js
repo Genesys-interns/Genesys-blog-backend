@@ -1,11 +1,9 @@
 /* eslint-disable import/extensions */
 import express from 'express';
-import noteRouter from './post.routes.js';
-import userGoogleRouter from './userGoogle.routes.js';
+import postRoute from './post.routes.js';
 
 const router = express.Router();
 
-router.use('/post', noteRouter);
-router.use('/users/google_signin', userGoogleRouter);
+router.use('/post', postRoute);
 
 export default router;

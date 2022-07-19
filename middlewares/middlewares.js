@@ -7,6 +7,7 @@ import session from 'express-session';
 import passport from 'passport';
 import database from '../config/db.config.js';
 import router from '../routes/index.routes.js';
+import errorHandler from './error.middleware.js';
 
 const middleware = (app) => {
   app.use(express.urlencoded({ extended: true }));
@@ -23,6 +24,7 @@ const middleware = (app) => {
   app.use('*', (req, res) => {
     res.status(200).send('Server is up and running,check the API documentation');
   });
+  app.use(errorHandler);
 };
 
 export default middleware;

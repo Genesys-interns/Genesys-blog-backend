@@ -1,3 +1,4 @@
+/* eslint-disable import/extensions */
 import express from 'express';
 import pino from 'pino';
 import middleware from './middlewares/middlewares.js';
