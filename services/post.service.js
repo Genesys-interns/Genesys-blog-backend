@@ -12,6 +12,11 @@ class PostService {
     const posts = await postModel.find();
     return posts;
   }
+
+  async getPostByCategory(data) {
+    const posts = await postModel.find({ category: data });
+    return posts;
+  }
 }
 
 export default new PostService();
