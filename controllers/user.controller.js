@@ -1,5 +1,7 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable import/extensions */
+/* eslint-disable no-unused-vars */
 import _ from 'lodash';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -39,7 +41,7 @@ class UserController {
   }
 
   async loginUser(req, res) {
-      const user = await UserService.findByEmail(req.body);
+    const user = await UserService.findByEmail(req.body);
     if (_.isEmpty(user)) {
       return res.status(404).send({ success: false, body: 'user does not exist' });
     }

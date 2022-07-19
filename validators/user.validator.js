@@ -1,4 +1,4 @@
-import Joi from "joi";
+import Joi from 'joi';
 
 const validateUserSignUpSchema = Joi.object().keys({
   email: Joi.string()
@@ -9,8 +9,7 @@ const validateUserSignUpSchema = Joi.object().keys({
     .required(),
   firstName: Joi.string().required(),
   lastName: Joi.string().required(),
-  password: Joi.string().required(),
+  password: Joi.string().required()
 });
-
 
 export default validateUserSignUpSchema;
