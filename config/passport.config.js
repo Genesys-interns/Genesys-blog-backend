@@ -15,7 +15,7 @@ const passportConfig = () => {
     ((request, accessToken, refreshToken, profile, done) => {
       // console.log('Trying to access google blah blah', profile);
       try {
-        const user = Userservice.findUser({ googleId: profile.id });
+        const user = Userservice.findUser(profile.id);
         if (user) {
           done(null, user);
         }
@@ -26,15 +26,17 @@ const passportConfig = () => {
           photo: profile.photos[0].value
         };
 
-        const newUser = Userservice.createG(userData)
-          .then((_user) => _user)
-          .catch((error) => {
-            throw new Error(error);
-          });
+        console.log(userData);
 
-        // (() => {})()
+        //     const newUser = Userservice.createG(userData)
+        //       .then((_user) => _user)
+        //       .catch((error) => {
+        //         console.log('fuck');
+        //       });
 
-        done(null, newUser);
+        //     // (() => {})()
+
+        //     done(null, newUser);
       } catch (err) {
         console.log(err);
       }

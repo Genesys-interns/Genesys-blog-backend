@@ -25,10 +25,10 @@ userGoogleRouter.get(
 
 userGoogleRouter.get(
   '/google/callback',
-  passport.authenticate('google', { failureRedirect: '/failure' }),
-  (req, res) => {
-    res.redirect('/');
-  }
+  passport.authenticate('google')
+  // (req, res) => {
+  //   console.log('Sign in successful');
+  // }
 );
 
 userGoogleRouter.get('/', userGoogleController.authUser);
