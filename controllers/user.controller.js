@@ -49,12 +49,12 @@ class UserController {
     if (!verifyPassword) {
       return res.status(404).send({ success: false, message: 'email or password is invalid' });
     }
-    const token = jwt.sign({ _id: user._id, email: user.email }, process.env.TOKEN_SECRET, { expiresIn: '23hrs', algorithm: 'HS512' });
+    const token = jwt.sign({ _id: user._id, email: user.email }, process.env.TOKEN_SECRET, { expiresIn: '200hrs', algorithm: 'HS512' });
     return res.status(200).send({
       success: true,
       body: {
         message: 'user logged in successfully',
-        data: { email: user.email, token }
+        data: { email: user.email, token,firstname:user.firstName,lastname:user.lastName }
       }
     });
   }

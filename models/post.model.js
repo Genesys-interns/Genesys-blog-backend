@@ -9,8 +9,8 @@ const postSchema = mongoose.Schema({
   description: {
     required: true,
     type: String
-
   },
+  
   category: {
     required: true,
     type: String,
@@ -29,7 +29,6 @@ const postSchema = mongoose.Schema({
     required: true,
     type: String
   }
-  
 
 }, { timeStamps: true });
 
