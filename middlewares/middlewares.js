@@ -3,11 +3,9 @@ import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-// import session from 'express-session';
 import passport from 'passport';
 import dotenv from 'dotenv';
 import GoogleStrategy from 'passport-google-oauth2';
-// import passportConfig from '../config/passport.config.js';
 import database from '../config/db.config.js';
 import router from '../routes/index.routes.js';
 import errorHandler from './error.middleware.js';
@@ -22,9 +20,7 @@ const middleware = (app) => {
   app.use(express.static('uploads'));
   app.use(cors());
   database();
-  // app.use(session({ secret: 'SECRET' }));
-  app.use(passport.initialize());
-  // app.use(passport.session());
+  // app.use(passport.initialize());
   app.use(router);
   passport.use(
     new GoogleStrategy(
@@ -34,7 +30,7 @@ const middleware = (app) => {
         callbackURL: 'https://localhost:4011/users/google/redirect'
       },
       () => {
-
+        // callback function operation
       }
     )
   );
