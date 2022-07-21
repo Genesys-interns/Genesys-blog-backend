@@ -8,6 +8,6 @@ const ForgotPasswordSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-const ForgotPassword = mongoose.model('ForgotPassword', ForgotPasswordSchema);
+const forgotPasswordModel = mongoose.model('ForgotPassword', ForgotPasswordSchema);
 
-export default ForgotPassword;
+export default forgotPasswordModel;

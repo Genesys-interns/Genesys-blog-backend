@@ -23,12 +23,12 @@ const user = new mongoose.Schema({
 
   },
   googleId: {
-   
+
     type: String
   },
-  
+
   photo: {
-   
+
     type: String
   }
   // googleId: {
@@ -42,10 +42,8 @@ const user = new mongoose.Schema({
   // photo: {
   //   required: true,
   //   type: String
-  //}
+  // }
 }, { timestamps: true });
-
-
 
 user.methods.toJSON = function () {
   const userObject = this.toObject();
@@ -59,4 +57,3 @@ export const User = mongoose.model('User', user);
 export default {
   User
 };
-
