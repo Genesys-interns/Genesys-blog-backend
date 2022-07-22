@@ -2,8 +2,8 @@
 /* eslint-disable class-methods-use-this */
 import forgotPasswordModel from '../models/forgot-password.model';
 import logger from '../app';
-import { response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
+import bcrypt from 'bcrypt';
 
 class ForgotPasswordController {
   async reset(req, res) {
@@ -23,9 +23,26 @@ class ForgotPasswordController {
               const resetString = uuidv4 + _id;
               forgotPasswordModel
               .deleteMany({ userID: _id})
-              .then()
+              .then(result => { 
+              const mailOptions = {
+                from: process.env.AUTH_EMAIL,
+                to: email,
+                subject: "Password Reset",
+                html: `<p>Use link below to reset your password</p><p>This link expires in 6 minutes </p><p> click <a heref=${redirectUrl + "/" + _id + "/" + resetString}></a> to proceed</p>`,
+              };
+
+              const saltRounds = 10;
+              bcrypt
+               .hash()
+               .then()
+               .catch()
+              })
               .catch(error => {
                 logger.error(error);
+                res.status(404).send({
+                  success: false,
+                  message: 'error occured while clearing user from passwrd reset list'
+                })
               })
           }
           sendResetEmail(data[0], redirectUrl, res);
