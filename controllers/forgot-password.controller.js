@@ -3,6 +3,7 @@
 import forgotPasswordModel from '../models/forgot-password.model';
 import logger from '../app';
 import { response } from 'express';
+import { v4 as uuidv4 } from 'uuid';
 
 class ForgotPasswordController {
   async reset(req, res) {
@@ -18,7 +19,15 @@ class ForgotPasswordController {
               message: 'User hasn\'t verified email'
              })
         } else{
-            
+          const  sendResetEmail = ({_id, email}, redirectUrl, res) => {
+              const resetString = uuidv4 + _id;
+              forgotPasswordModel
+              .deleteMany({ userID: _id})
+              .then()
+              .catch(error => {
+                logger.error(error);
+              })
+          }
           sendResetEmail(data[0], redirectUrl, res);
         } else {
           res.send({
