@@ -1,9 +1,11 @@
+/* eslint-disable import/no-cycle */
+/* eslint-disable import/prefer-default-export */
 /* eslint-disable import/extensions */
 import express from 'express';
 import pino from 'pino';
 import middleware from './middlewares/middlewares.js';
 
-const logger = pino();
+export const logger = pino();
 const app = express();
 
 middleware(app);
