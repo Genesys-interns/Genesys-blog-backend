@@ -4,20 +4,26 @@
 /* eslint-disable no-unused-vars */
 import _ from 'lodash';
 import { response } from 'express';
+import cloudinary from 'cloudinary';
 import postService from '../services/post.service.js';
 import postModel from '../models/post.model.js';
 
 class PostController {
   async createPost(req, res, next) {
-    const body = {
+  
+    cloudinary.config({
+      cloud_name: process.env.CLOUD_NAME,
+      api_key: process.env.API_KEY,
+      api_secret: process.env.API_SECRET
+    });
+    const result = await cloudinary.v2.uploader.upload(req.file.path,);
+     const body = {
       title: req.body.title,
       description: req.body.description,
       category: req.body.category,
       userId: req.body.userId,
       body: req.body.body,
-      image: req.file.originalname
-    };
-
+      image: result.url    };
     const post = await postService.postBlog(body);
     return res.status(201).send({ status: true, message: 'post created successfully', body: post });
   }
@@ -42,7 +48,7 @@ class PostController {
         _id: doc._id,
         request: {
           type: 'GET',
-          url: `${process.env.production_route}${doc.image}`
+          url: doc.image
         }
       }))
     });

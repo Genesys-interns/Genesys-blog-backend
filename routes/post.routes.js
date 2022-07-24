@@ -8,6 +8,7 @@ import commentController from '../controllers/comment.controller.js';
 import checkAuth from '../middlewares/auth.middleware.js';
 import commentvalidator from '../validators/comment.validator.js';
 
+
 const postRouter = express.Router();
 
 postRouter.get('/:title', postController.articleByTitle);
