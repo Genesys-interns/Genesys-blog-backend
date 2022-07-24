@@ -15,7 +15,7 @@ class PostController {
       category: req.body.category,
       userId: req.body.userId,
       body: req.body.body,
-      image: req.file.originalname
+      image: `${process.env.production_route}${req.file.originalname}`
     };
 
     const post = await postService.postBlog(body);
@@ -32,7 +32,7 @@ class PostController {
       body: post.map((doc) => ({
         title: doc.title,
         price: doc.description,
-        imageUrl: `${process.env.production_route}${doc.image}`,
+        imageUrl: doc.image,
         description: doc.description,
         category: doc.category,
 
@@ -42,7 +42,7 @@ class PostController {
         _id: doc._id,
         request: {
           type: 'GET',
-          url: `${process.env.production_route}${doc.image}`
+          url: doc.image
         }
       }))
     });
@@ -79,7 +79,7 @@ class PostController {
       body: post.map((doc) => ({
         title: doc.title,
         price: doc.description,
-        imageUrl: `${process.env.production_route}${doc.image}`,
+        imageUrl: doc.image,
         description: doc.description,
         category: doc.category,
 
@@ -89,7 +89,7 @@ class PostController {
         _id: doc._id,
         request: {
           type: 'GET',
-          url: `${process.env.production_route}${doc.image}`
+          url: doc.image
         }
       }))
     });
@@ -125,6 +125,11 @@ class PostController {
         }
       }
     });
+  }
+
+  async fetchUserArticle(id) {
+    const userArticle = await postService.userPost(id);
+    return userArticle;
   }
 }
 export default new PostController();
