@@ -7,6 +7,7 @@ import { response } from 'express';
 import postService from '../services/post.service.js';
 import postModel from '../models/post.model.js';
 
+
 class PostController {
   async createPost(req, res, next) {
     const body = {
@@ -128,8 +129,16 @@ class PostController {
   }
 
   async fetchUserArticle(id) {
-    const userArticle = await postService.userPost(id);
+    const userArticle = await postService.userPost();
     return userArticle;
+  }
+
+  async fetchAllUserPosts(req, res) {
+    const userPosts = await postService.getPostById(req.params.id);
+    if (_.isEmpty(userPosts)) {
+      return res.status(404).send({ status: true, message: 'this user has no posts' });
+    }
+    return res.status(200).send({ status: true, body: userPosts });
   }
 }
 export default new PostController();

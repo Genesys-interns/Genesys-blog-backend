@@ -9,6 +9,7 @@ import UserService from '../services/user.service.js';
 import userService from '../services/user.service.js';
 import postController from './post.controller.js';
 import commentController from './comment.controller.js';
+
 class UserController {
   async create(req, res) {
     const user = UserService.findByEmail(req.body);
@@ -63,15 +64,11 @@ class UserController {
   }
 
   async fetchUserDetails(req, res) {
-    const user = await userService.fetchUserDetails(req.params.id);
     const articles = await postController.fetchUserArticle(req.params.id);
     const comments = await commentController.getUsersComments(req.params.id);
-    if (_.isEmpty(user)) {
-      return res.status(404).send({ status: false, message: 'User does not exist...make sure you are passing in a correct user id' });
-    }
-    
+
     const userData = {
-      firstName: user.firstName, lastName: user.lastName, email: user.email, photo: user.photo, _id: user._id, googleId: user.googleId,postLength:articles.length,reactions: comments.length,userPost:articles,
+      postLength: articles.length, reactions: comments.length, userPost: articles
     };
     return res.status(200).send({ status: true, body: userData });
   }
