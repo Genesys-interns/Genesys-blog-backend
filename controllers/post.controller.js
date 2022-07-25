@@ -8,6 +8,7 @@ import cloudinary from 'cloudinary';
 import postService from '../services/post.service.js';
 import postModel from '../models/post.model.js';
 
+
 class PostController {
   async createPost(req, res, next) {
   
@@ -23,7 +24,13 @@ class PostController {
       category: req.body.category,
       userId: req.body.userId,
       body: req.body.body,
+<<<<<<< HEAD
       image: result.url    };
+=======
+      image: `${process.env.production_route}${req.file.originalname}`
+    };
+
+>>>>>>> user-details
     const post = await postService.postBlog(body);
     return res.status(201).send({ status: true, message: 'post created successfully', body: post });
   }
@@ -38,7 +45,7 @@ class PostController {
       body: post.map((doc) => ({
         title: doc.title,
         price: doc.description,
-        imageUrl: `${process.env.production_route}${doc.image}`,
+        imageUrl: doc.image,
         description: doc.description,
         category: doc.category,
 
@@ -85,7 +92,7 @@ class PostController {
       body: post.map((doc) => ({
         title: doc.title,
         price: doc.description,
-        imageUrl: `${process.env.production_route}${doc.image}`,
+        imageUrl: doc.image,
         description: doc.description,
         category: doc.category,
 
@@ -95,7 +102,7 @@ class PostController {
         _id: doc._id,
         request: {
           type: 'GET',
-          url: `${process.env.production_route}${doc.image}`
+          url: doc.image
         }
       }))
     });
@@ -131,6 +138,19 @@ class PostController {
         }
       }
     });
+  }
+
+  async fetchUserArticle(id) {
+    const userArticle = await postService.userPost();
+    return userArticle;
+  }
+
+  async fetchAllUserPosts(req, res) {
+    const userPosts = await postService.getPostById(req.params.id);
+    if (_.isEmpty(userPosts)) {
+      return res.status(404).send({ status: true, message: 'this user has no posts' });
+    }
+    return res.status(200).send({ status: true, body: userPosts });
   }
 }
 export default new PostController();

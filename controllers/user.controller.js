@@ -6,6 +6,9 @@ import _ from 'lodash';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import UserService from '../services/user.service.js';
+import userService from '../services/user.service.js';
+import postController from './post.controller.js';
+import commentController from './comment.controller.js';
 
 class UserController {
   async create(req, res) {
@@ -54,9 +57,30 @@ class UserController {
       success: true,
       body: {
         message: 'user logged in successfully',
-        data: { email: user.email, token,firstname:user.firstName,lastname:user.lastName }
+        token,
+        data: user
       }
     });
+  }
+
+  async fetchUserDetails(req, res) {
+    const articles = await postController.fetchUserArticle(req.params.id);
+    const comments = await commentController.getUsersComments(req.params.id);
+
+    const userData = {
+      postLength: articles.length, reactions: comments.length, userPost: articles
+    };
+    return res.status(200).send({ status: true, body: userData });
+  }
+
+  async updateUserPhoto(req, res) {
+    const data = { photo: `${process.env.production_route}${req.file.originalname}` };
+
+    const update = await userService.updateUserImage(req.body.id, data);
+    if (update.acknowledged === true) {
+      return res.status(201).send({ status: true, message: 'image uploaded successfully' });
+    }
+    return res.status(200).send({ status: false, message: 'couldn\'t upload image...try again later!' });
   }
 }
 export default new UserController();
