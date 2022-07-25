@@ -24,13 +24,7 @@ class PostController {
       category: req.body.category,
       userId: req.body.userId,
       body: req.body.body,
-<<<<<<< HEAD
       image: result.url    };
-=======
-      image: `${process.env.production_route}${req.file.originalname}`
-    };
-
->>>>>>> user-details
     const post = await postService.postBlog(body);
     return res.status(201).send({ status: true, message: 'post created successfully', body: post });
   }
