@@ -54,7 +54,7 @@ class UserController {
       success: true,
       body: {
         message: 'user logged in successfully',
-        data: { email: user.email, token,firstname:user.firstName,lastname:user.lastName }
+        data: { email: user.email, token,firstname:user.firstName,lastname:user.lastName,photo:user.photo }
       }
     });
   }
