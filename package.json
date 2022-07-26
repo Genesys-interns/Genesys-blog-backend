@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/Genesys-interns/Genesys-blog-backend#readme",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.20.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
@@ -38,8 +39,10 @@
     "mongoose": "^6.4.4",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.7.7",
     "passport": "^0.6.0",
     "passport-google-oauth2": "^0.2.0",
-    "pino": "^8.1.0"
+    "pino": "^8.1.0",
+    "uuid": "^8.3.2"
   }
 }
