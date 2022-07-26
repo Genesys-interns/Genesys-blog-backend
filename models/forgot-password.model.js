@@ -1,11 +1,10 @@
 import mongoose from 'mongoose';
 
 const ForgotPasswordSchema = new mongoose.Schema({
-  email: {
-    type: 'String',
-    required: true,
-    unique: true
-  }
+  userID: String,
+  resetString: String,
+  createdAt: Date,
+  expiresAt: Date
 }, { timestamps: true });
 
 const forgotPasswordModel = mongoose.model('ForgotPassword', ForgotPasswordSchema);

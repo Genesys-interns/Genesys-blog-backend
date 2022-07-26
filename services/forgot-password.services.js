@@ -1,7 +1,13 @@
-import forgotPasswordModel from '../models/forgot-password.model';
+import Joi from 'joi';
 
-class ForgotPasswordService {
-  
-}
+const validateEmail = async (email) => {
+  // email schema
+  const schema = Joi.object({
+    email: Joi.string().email().trim().lowercase()
+      .required()
+  });
+  const value = await schema.validateAsync(email);
 
-export default new ForgotPasswordService();
+  return value;
+};
+export default validateEmail;
