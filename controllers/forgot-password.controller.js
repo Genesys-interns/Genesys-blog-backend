@@ -1,7 +1,6 @@
 /* eslint-disable import/extensions */
 /* eslint-disable import/no-cycle */
 /* eslint-disable class-methods-use-this */
-import { transporter } from '../config/mail.js';
 import { User } from '../models/user.model.js';
 import { sendPasswordResetMail, validateEmail } from '../services/forgot-password.services.js';
 

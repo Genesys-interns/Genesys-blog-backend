@@ -1,7 +1,6 @@
 /* eslint-disable import/no-named-as-default */
 import nodemailer from 'nodemailer';
 import Mailgen from 'mailgen';
-import logger from '../app';
 
 export const transporter = nodemailer.createTransport({
   service: 'gmail',
