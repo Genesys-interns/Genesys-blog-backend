@@ -17,7 +17,7 @@ class ForgotPasswordController {
         message: 'User with this email does not exist'
       });
      }
-     // send rese
+     // send reset mail
      await sendPasswordResetMail(user);
 
      return res.status(200).send({

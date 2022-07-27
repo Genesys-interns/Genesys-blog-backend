@@ -1,9 +1,10 @@
 import Joi from 'joi';
 import { mailGenerator, transporter } from '../config/mail';
 
+const BASE_PATH = '/forgot-password';
 const base = `${process.env.APP_URL}${BASE_PATH}`;
 export const validateEmail = async (email) => {
-  // email schema 
+  // email schema
   const schema = Joi.object({
     email: Joi.string().email().trim().lowercase()
       .required()
