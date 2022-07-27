@@ -1,5 +1,7 @@
+/* eslint-disable import/no-cycle */
+/* eslint-disable import/extensions */
 import Joi from 'joi';
-import { mailGenerator, transporter } from '../config/mail';
+import { mailGenerator, transporter } from '../config/mail.js';
 
 const BASE_PATH = '/forgot-password';
 const base = `${process.env.APP_URL}${BASE_PATH}`;
