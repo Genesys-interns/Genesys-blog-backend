@@ -1,7 +1,9 @@
 import Joi from 'joi';
+import { mailGenerator, transporter } from '../config/mail';
 
-const validateEmail = async (email) => {
-  // email schema
+const base = `${process.env.APP_URL}${BASE_PATH}`;
+export const validateEmail = async (email) => {
+  // email schema 
   const schema = Joi.object({
     email: Joi.string().email().trim().lowercase()
       .required()
@@ -10,4 +12,37 @@ const validateEmail = async (email) => {
 
   return value;
 };
-export default validateEmail;
+
+export const sendPasswordResetMail = async (user) => {
+  const token = user.generateAuthToken();
+  // send mail
+  const response = {
+    body: {
+      name: `${user.firstName} ${user.lastName}`,
+      intro: 'Password Reset Link',
+      action: {
+        instructions:
+            'If you did not request for this mail, Please Ignore it. To reset your password, click on the link below:',
+        button: {
+          text: 'Reset password',
+          link: `${base}/users/password-reset?token=${token}`
+        }
+      },
+      outro: 'Do not share this link with anyone.'
+    }
+  };
+
+  const mail = mailGenerator.generate(response);
+
+  const message = {
+    from: '`Udúnkúlú <ezehlivinus@yahoo.com>',
+    to: user.email,
+    subject: 'Reset your password',
+    html: mail
+  };
+
+  await transporter.sendMail(message);
+  // return true;
+};
+
+export default { validateEmail, sendPasswordResetMail };

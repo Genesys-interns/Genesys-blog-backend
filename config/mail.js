@@ -1,5 +1,6 @@
 /* eslint-disable import/no-named-as-default */
 import nodemailer from 'nodemailer';
+import Mailgen from 'mailgen';
 import logger from '../app';
 
 export const transporter = nodemailer.createTransport({
@@ -11,13 +12,12 @@ export const transporter = nodemailer.createTransport({
   }
 });
 
-export const verifyTransporter = transporter.verify((error, success) => {
-  if (error) {
-    logger.error(error);
-  } else {
-    logger.info('Ready to send email');
-    logger.info(success);
+export const mailGenerator = new Mailgen({
+  theme: 'default',
+  product: {
+    name: 'Genesys Blog',
+    link: process.env.APP_URL
   }
 });
 
-export default { transporter, verifyTransporter };
+export default { transporter, mailGenerator };
