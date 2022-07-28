@@ -5,10 +5,12 @@
 import _ from 'lodash';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import cloudinary from 'cloudinary';
 import UserService from '../services/user.service.js';
 import userService from '../services/user.service.js';
 import postController from './post.controller.js';
 import commentController from './comment.controller.js';
+
 
 class UserController {
   async create(req, res) {
@@ -19,14 +21,6 @@ class UserController {
         message: 'User already exists'
       });
     }
-    // const hashPassword = async (password) => {
-    //   try {
-    //     const salt = await bcrypt.genSalt(10);
-    //     return await bcrypt.hash(password, salt);
-    //   } catch (error) {
-    //     throw new Error('Hashing failed', error);
-    //   }
-    // };
     const data = {
 
       email: req.body.email,
@@ -74,7 +68,13 @@ class UserController {
   }
 
   async updateUserPhoto(req, res) {
-    const data = { photo: `${process.env.production_route}${req.file.originalname}` };
+    cloudinary.config({
+      cloud_name: process.env.CLOUD_NAME,
+      api_key: process.env.API_KEY,
+      api_secret: process.env.API_SECRET
+    });
+    const result = await cloudinary.v2.uploader.upload(req.file.path);
+    const data = { photo: result.url };
 
     const update = await userService.updateUserImage(req.body.id, data);
     if (update.acknowledged === true) {

@@ -7,6 +7,7 @@ import userController from "../controllers/user.controller.js";
 import validateUserSignUpSchema from "../validators/user.validator.js";
 import validator from "../validators/validator.js";
 import validateUserSignInSchema from "../validators/user.signin.validator.js";
+import imageValidator from "../validators/user.image.validator.js";
 
 const storage = multer.diskStorage({
   destination:function(req, file, cb) {
@@ -34,12 +35,12 @@ userRouter.post(
 
 userRouter.get(
   "/:id",
- 
+  
   userController.fetchUserDetails
 );
 userRouter.put(
   "/image",
- upload.single('photo'),
+ upload.single('photo'), validator(imageValidator),
   userController.updateUserPhoto
 );
 export default userRouter;
