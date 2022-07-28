@@ -17,7 +17,7 @@ export const validateEmail = async (email) => {
 };
 
 export const sendPasswordResetMail = async (user) => {
-  const token = user.generateAuthToken();
+  const token = user.generateToken();
   // send mail
   const response = {
     body: {

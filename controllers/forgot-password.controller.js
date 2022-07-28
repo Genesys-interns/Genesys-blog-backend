@@ -7,7 +7,6 @@ import { sendPasswordResetMail, validateEmail } from '../services/forgot-passwor
 class ForgotPasswordController {
   async reset(req, res) {
     const { email } = await validateEmail({ email: req.body.email });
-
     // verify user
     const user = await User.findOne({ email });
     if (!user) {
@@ -18,6 +17,7 @@ class ForgotPasswordController {
     }
     // send reset mail
     await sendPasswordResetMail(user);
+    // return res.send({ Authenticated: user });
 
     return res.status(200).send({
       success: true,
