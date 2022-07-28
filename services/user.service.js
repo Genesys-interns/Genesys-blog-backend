@@ -1,22 +1,30 @@
 /* eslint-disable import/extensions */
 /* eslint-disable class-methods-use-this */
-import User from '../models/user.model.js';
 import UserVerification from '../models/userVerification.model.js';
 
 class Userservice {
-  async createG(data) {
-    const newUser = await User.create(data);
-    return newUser;
-  }
-
   async createVerifiedUser(data) {
-    const newUser = await UserVerification.create(data);
-    return newUser;
+    const verifiedUser = await UserVerification.create(data);
+    return verifiedUser;
   }
 
-  async findUser(googleId) {
-    const googleid = await User.findOne({ googleId });
-    return googleid;
+  async findVerifiedUser(id) {
+    const verifiedUser = await UserVerification.findOne({ id });
+    return verifiedUser;
+  }
+
+  async deleteVerifiedUser(id) {
+    const verifiedUser = await UserVerification.deleteOne({ _id: id });
+    return verifiedUser;
+  }
+
+  async updateUser(id, data) {
+    const verifiedUser = await UserVerification.updateOne(
+      { _id: id },
+      data,
+      { runValidators: true }
+    );
+    return verifiedUser;
   }
 }
 

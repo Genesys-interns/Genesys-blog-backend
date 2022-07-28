@@ -63,7 +63,39 @@ class UserController {
       });
     };
 
-    return sendVerificationEmail();
+    sendVerificationEmail();
+  }
+
+  async verifyLink(req, res) {
+    const { userId, uniqueString } = req.params;
+
+    const findverfiedUser = Userservice.findVerifiedUser(userId);
+    if (!findverfiedUser) {
+      res.status(500).send({
+        success: false,
+        message: 'This user does not exist or has been previously verified'
+      });
+    }
+
+    const { expiresAt } = findverfiedUser[0];
+    if (expiresAt < Date.now()) {
+      const deleteverfiedUser = Userservice.deleteVerifiedUser(userId);
+
+      if (!deleteverfiedUser) {
+        res.status(500).send({
+          success: false,
+          message: 'Error while trying to delete this user'
+        });
+      }
+    }
+
+    const hashedUniqueString = findverfiedUser[0] + uniqueString;
+
+    const unhashUString = bcrypt.compare(uniqueString, hashedUniqueString);
+
+    if (unhashUString){
+      
+    }
   }
 }
 export default new UserController();
