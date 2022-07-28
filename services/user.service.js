@@ -18,7 +18,7 @@ class UserService {
     return newUser;
   }
 
-  async findUserByGoogle( googleId ) {
+  async findUserByGoogle(googleId) {
     const googleid = await User.findOne({ googleId });
     return googleid;
   }
