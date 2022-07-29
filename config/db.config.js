@@ -1,10 +1,13 @@
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-cycle */
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import { logger } from '../app.js';
 
 dotenv.config();
 
 const database = () => {
-  mongoose.connect(process.env.MONGODB_URI).then(() => console.log('database connected')).catch((err) => console.log(err));
+  mongoose.connect(process.env.MONGODB_URI).then(() => logger.info('database connected')).catch((err) => console.log(err));
 };
 
 export default database;
