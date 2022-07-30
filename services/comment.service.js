@@ -1,3 +1,4 @@
+/* eslint-disable import/extensions */
 /* eslint-disable class-methods-use-this */
 import commentModel from '../models/comment.model.js';
 
@@ -8,7 +9,7 @@ class CommentServices {
   }
 
   async getComment(id) {
-    const comment = await commentModel.find({id});
+    const comment = await commentModel.find({ id });
     return comment;
   }
 }
