@@ -2,31 +2,30 @@
 /* eslint-disable import/extensions */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-unused-vars */
-import _ from 'lodash';
-import { response } from 'express';
 import cloudinary from 'cloudinary';
+import _ from 'lodash';
 import postService from '../services/post.service.js';
-import postModel from '../models/post.model.js';
-
 
 class PostController {
   async createPost(req, res, next) {
-  
     cloudinary.config({
       cloud_name: process.env.CLOUD_NAME,
       api_key: process.env.API_KEY,
       api_secret: process.env.API_SECRET
     });
-    const result = await cloudinary.v2.uploader.upload(req.file.path,);
-     const body = {
+    const result = await cloudinary.v2.uploader.upload(req.file.path);
+    const body = {
       title: req.body.title,
       description: req.body.description,
       category: req.body.category,
       userId: req.body.userId,
       body: req.body.body,
-      image: result.url    };
+      image: result.url
+    };
     const post = await postService.postBlog(body);
-    return res.status(201).send({ status: true, message: 'post created successfully', body: post });
+    return res
+      .status(201)
+      .send({ status: true, message: 'post created successfully', body: post });
   }
 
   async getPosts(req, res) {
@@ -38,11 +37,10 @@ class PostController {
       status: true,
       body: post.map((doc) => ({
         title: doc.title,
-        price: doc.description,
         imageUrl: doc.image,
         description: doc.description,
         category: doc.category,
-
+        views: doc.views,
         body: doc.body,
         userId: doc.userId,
 
@@ -56,8 +54,7 @@ class PostController {
   }
 
   async articleByTitle(req, res) {
-    const { title } = req.params;
-    const article = await postService.findByTitle(title);
+    const article = await postService.findByTitle(req.params.title);
 
     if (!article) {
       return res.status(404).send({
@@ -73,7 +70,7 @@ class PostController {
   }
 
   async getPostByCategories(req, res) {
-    const post = await postService.getPostByCategory(req.query.category);
+    const post = await postService.getPostByCategory(req.params.category);
 
     if (!post) {
       res.status(404).send({
@@ -85,15 +82,12 @@ class PostController {
       status: true,
       body: post.map((doc) => ({
         title: doc.title,
-        price: doc.description,
         imageUrl: doc.image,
         description: doc.description,
         category: doc.category,
-
-        body: doc.body,
-        userId: doc.userId,
-
+        views: doc.views,
         _id: doc._id,
+        createdAt: doc.createdAt,
         request: {
           type: 'GET',
           url: doc.image
@@ -107,7 +101,8 @@ class PostController {
     if (_.isEmpty(post)) {
       res.status(404).send({
         status: false,
-        message: 'Post does not exist, pleaase create a post before attempting to delete'
+        message:
+          'Post does not exist, pleaase create a post before attempting to delete'
       });
     }
     res.status(200).send({
@@ -135,18 +130,33 @@ class PostController {
   }
 
   async fetchUserArticle(id) {
-    const userArticle = await postService.userPost();
+    const userArticle = await postService.userPost(id);
     return userArticle;
   }
 
   async fetchAllUserPosts(req, res) {
-    const userPosts = await postService.getPostById(req.params.id);
+    const userPosts = await postService.getUserPostById(req.params.id);
     if (_.isEmpty(userPosts)) {
-      return res.status(404).send({ status: true, message: 'this user has no posts' });
+      return res
+        .status(404)
+        .send({ status: true, message: 'this user has no posts' });
     }
     return res.status(200).send({ status: true, body: userPosts });
   }
+
+  async fetchPostById(req, res) {
+    const posts = await postService.getPostById(req.params.id);
+    if (_.isEmpty(posts)) {
+      return res.status(404).send({ status: false, body: 'no post found' });
+    }
+    if (req.userData === undefined || req.userData !== req.posts.userId) {
+     const update = await postService.updatePost(req.params.id, {views: posts.views + 1 });
+     }
+    
+    return res.status(200).send({ status: true, message: posts });
+  }
 }
 export default new PostController();
+
 /* eslint-disable class-methods-use-this */
 /* eslint-disable import/extensions */

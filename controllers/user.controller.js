@@ -46,7 +46,7 @@ class UserController {
     if (!verifyPassword) {
       return res.status(404).send({ success: false, message: 'email or password is invalid' });
     }
-    const token = jwt.sign({ _id: user._id, email: user.email }, process.env.TOKEN_SECRET, { expiresIn: '200hrs', algorithm: 'HS512' });
+    const token = jwt.sign({ _id: user._id, email: user.email }, process.env.TOKEN_SECRET, { expiresIn: '200h', algorithm: 'HS512' });
     return res.status(200).send({
       success: true,
       body: {
@@ -62,7 +62,7 @@ class UserController {
     const comments = await commentController.getUsersComments(req.params.id);
 
     const userData = {
-      postLength: articles.length, reactions: comments.length, userPost: articles
+      postLength: articles.length, reactions: comments.length , userPost: articles
     };
     return res.status(200).send({ status: true, body: userData });
   }

@@ -13,11 +13,16 @@ class PostService {
     return posts;
   }
 
-  async getPostById(id) {
+  async getUserPostById(id) {
     const posts = await postModel.find({ _userId: id });
     return posts;
   }
-  
+
+  async getPostById(id) {
+    const posts = await postModel.findById(id);
+    return posts;
+  }
+
   async getPostByCategory(data) {
     const posts = await postModel.find({ category: data });
     return posts;
@@ -39,7 +44,16 @@ class PostService {
   }
 
   async updatePost(id, data) {
-    const post = await postModel.updateOne({ _id: id }, data, { runValidators: true });
+    const post = await postModel.updateOne({ _id: id }, data, {
+      runValidators: true
+    });
+    return post;
+  }
+
+  async updatePostViews(id, data) {
+    const post = await postModel.updateOne({ _id: id }, data, {
+      runValidators: true
+    });
     return post;
   }
 
