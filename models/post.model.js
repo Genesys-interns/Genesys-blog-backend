@@ -9,8 +9,8 @@ const postSchema = mongoose.Schema({
   description: {
     required: true,
     type: String
+
   },
-  
   category: {
     required: true,
     type: String,
