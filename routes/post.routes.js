@@ -26,12 +26,13 @@ const storage = multer.diskStorage({
 const upload = multer({ storage:storage });
 postRouter.post('/',  upload.single('image'),validator(postvalidator) , checkAuth, postController.createPost);
 postRouter.get('/', postController.getPosts);
-postRouter.get('/', postController.getPostByCategories);
+postRouter.get('/category/:category', postController.getPostByCategories);
 
 postRouter.post('/comments', checkAuth, validator(commentvalidator), commentController.postComments);
 postRouter.get('/comments/:id', commentController.getComments);
+postRouter.get('/id/:id', postController.fetchPostById);
+postRouter.get('/title/:title', postController.articleByTitle);
 
-postRouter.get('/:title', postController.articleByTitle);
 
 postRouter.delete('/:id', postController.deletePost);
 
