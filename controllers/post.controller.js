@@ -153,7 +153,7 @@ class PostController {
      const update = await postService.updatePost(req.params.id, {views: posts.views + 1 });
      }
     
-    return res.status(200).send({ status: true, message: posts });
+    return res.status(200).send({ status: true, body: posts });
   }
 }
 export default new PostController();
