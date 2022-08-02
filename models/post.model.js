@@ -28,8 +28,10 @@ const postSchema = mongoose.Schema({
   image: {
     required: true,
     type: String
+  },
+  isDraft: {
+    type: Boolean
   }
-  
 
 }, { timeStamps: true });
 
