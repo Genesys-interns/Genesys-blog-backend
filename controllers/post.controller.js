@@ -128,5 +128,3 @@ class PostController {
   }
 }
 export default new PostController();
-/* eslint-disable class-methods-use-this */
-/* eslint-disable import/extensions */
