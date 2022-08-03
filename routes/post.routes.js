@@ -3,7 +3,7 @@ import express from 'express';
 import multer from 'multer';
 import postController from '../controllers/post.controller.js';
 import validator from '../validators/validator.js';
-import postvalidator from '../validators/post.validator.js';
+import { draftPostSchema } from '../validators/post.validator.js';
 import commentController from '../controllers/comment.controller.js';
 import checkAuth from '../middlewares/auth.middleware.js';
 import commentvalidator from '../validators/comment.validator.js';
@@ -23,7 +23,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
-postRouter.post('/', upload.single('image'), validator(postvalidator), checkAuth, postController.createPost);
+postRouter.post('/', upload.single('image'), validator(draftPostSchema), checkAuth, postController.createPost);
 postRouter.get('/', postController.getPosts);
 postRouter.get('/', postController.getPostByCategories);
 

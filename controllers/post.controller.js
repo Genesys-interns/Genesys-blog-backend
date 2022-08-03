@@ -6,19 +6,43 @@ import _ from 'lodash';
 import { response } from 'express';
 import postService from '../services/post.service.js';
 import postModel from '../models/post.model.js';
+import postvalidator from '../validators/post.validator.js';
 
 class PostController {
   async createPost(req, res, next) {
+    const { _id, isPublished } = req.body;
+
     const body = {
       title: req.body.title,
       description: req.body.description,
       category: req.body.category,
-      userId: req.body.userId,
+      // userId: req.body.userId,
       body: req.body.body,
-      image: req.file.originalname
+      image: req.file?.originalname
     };
+    const data = req.body;
+    data.userId = req.userData._id;
+    data.image = 'imageUrl' // || req.file?.originalname;
+    const updateData = _.omit(data, '_id');
 
-    const post = await postService.postBlog(body);
+    // file upload only happens when the post ready to be published
+    let post;
+    console.log(_id)
+    if (!_id) {
+      // first time the post is draft
+      post = await postService.postBlog(updateData);
+    } else if (_id && !isPublished) {
+      // keep saving the post's draft
+      post = await postService.updatePost(_id, _.omit(updateData, 'isPublished'));
+    } else if (_id && isPublished) {
+      // we want to publish the post
+      const validated = await postvalidator.validateAsync(updateData);
+      post = await postService.updatePost(_id, validated);
+    } else {
+      throw new Error('something went wrong');
+    }
+
+    // post = await postService.postBlog(body);
     return res.status(201).send({ status: true, message: 'post created successfully', body: post });
   }
 

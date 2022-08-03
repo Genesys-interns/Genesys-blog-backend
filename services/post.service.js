@@ -34,7 +34,12 @@ class PostService {
   }
 
   async updatePost(id, data) {
-    const post = await postModel.updateOne({ _id: id }, data, { runValidators: true });
+    const post = await postModel.findByIdAndUpdate(id, data, { runValidators: true, new: true });
+    return post;
+  }
+
+  async getAllDrafts() {
+    const post = await postModel.find({ isPublished: false });
     return post;
   }
 }
