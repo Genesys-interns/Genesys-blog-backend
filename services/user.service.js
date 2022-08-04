@@ -19,11 +19,11 @@ class UserService {
   }
 
   async findUserByGoogle(googleId) {
-    const googleid = await User.findOne({ googleId :googleId});
+    const googleid = await User.findOne({ googleId });
     return googleid;
   }
   async fetchUserDetails(id) {
-    const user = await User.findOne({ _id:id });
+    const user = await User.findOne({ _id: id });
     return user;
   }
   async updateUserImage(id, data) {
