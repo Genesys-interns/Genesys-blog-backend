@@ -3,9 +3,7 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-unused-vars */
 import _ from 'lodash';
-import { response } from 'express';
 import postService from '../services/post.service.js';
-import postModel from '../models/post.model.js';
 import postvalidator from '../validators/post.validator.js';
 
 class PostController {
@@ -22,27 +20,26 @@ class PostController {
     };
     const data = req.body;
     data.userId = req.userData._id;
-    data.image = 'imageUrl' // || req.file?.originalname;
+    data.image = 'imageUrl'; // || req.file?.originalname;
     const updateData = _.omit(data, '_id');
 
     // file upload only happens when the post ready to be published
     let post;
-    console.log(_id)
+
     if (!_id) {
-      // first time the post is draft
+      // if no post id exists create post(draft) with id
       post = await postService.postBlog(updateData);
     } else if (_id && !isPublished) {
-      // keep saving the post's draft
+      // if post exists and isPublished status is set to false update post(draft)
       post = await postService.updatePost(_id, _.omit(updateData, 'isPublished'));
     } else if (_id && isPublished) {
-      // we want to publish the post
+      // post exists and isPublished status is set to true update post(draft)
       const validated = await postvalidator.validateAsync(updateData);
       post = await postService.updatePost(_id, validated);
     } else {
-      throw new Error('something went wrong');
+      throw new Error('Unable to create draft');
     }
 
-    // post = await postService.postBlog(body);
     return res.status(201).send({ status: true, message: 'post created successfully', body: post });
   }
 
