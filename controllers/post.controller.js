@@ -3,7 +3,7 @@
 /* eslint-disable import/extensions */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-unused-vars */
-//import cloudinary from 'cloudinary';
+// import cloudinary from 'cloudinary';
 import _ from 'lodash';
 import cloudinary from '../config/cloudinary.config.js';
 import postService from '../services/post.service.js';
