@@ -1,6 +1,6 @@
 /* eslint-disable import/extensions */
 import express from 'express';
-import multer from 'multer';
+import { upload } from '../config/multer.config.js';
 import postController from '../controllers/post.controller.js';
 import validator from '../validators/validator.js';
 import { draftPostSchema } from '../validators/post.validator.js';
@@ -13,17 +13,12 @@ const postRouter = express.Router();
 postRouter.get('/:title', postController.articleByTitle);
 postRouter.patch('/:postid', postController.updateArticle);
 
-const storage = multer.diskStorage({
-  destination(req, file, cb) {
-    cb(null, 'uploads/');
-  },
-  filename(req, file, cb) {
-    cb(null, file.originalname);
-  }
-});
+postRouter.post('/', [
+  checkAuth,
+  upload.single('image'),
+  validator(draftPostSchema)
+], postController.createPost);
 
-const upload = multer({ storage });
-postRouter.post('/', upload.single('image'), validator(draftPostSchema), checkAuth, postController.createPost);
 postRouter.get('/', postController.getPosts);
 postRouter.get('/', postController.getPostByCategories);
 

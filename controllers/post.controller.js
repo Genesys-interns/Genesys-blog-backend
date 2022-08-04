@@ -1,23 +1,18 @@
+/* eslint-disable import/no-named-as-default-member */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable import/extensions */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-unused-vars */
 import _ from 'lodash';
+import cloudinary from '../config/cloudinary.config.js';
 import postService from '../services/post.service.js';
 import postvalidator from '../validators/post.validator.js';
+// import { deleteFile } from '../services/post.service'
 
 class PostController {
   async createPost(req, res, next) {
     const { _id, isPublished } = req.body;
 
-    const body = {
-      title: req.body.title,
-      description: req.body.description,
-      category: req.body.category,
-      // userId: req.body.userId,
-      body: req.body.body,
-      image: req.file?.originalname
-    };
     const data = req.body;
     data.userId = req.userData._id;
     data.image = 'imageUrl'; // || req.file?.originalname;
@@ -35,6 +30,20 @@ class PostController {
     } else if (_id && isPublished) {
       // post exists and isPublished status is set to true update post(draft)
       const validated = await postvalidator.validateAsync(updateData);
+      // upload post image to cloudinary
+      if (!('file' in req)) {
+        return res.status(404).send({
+          success: false,
+          message: 'no file found, please attached a file'
+        });
+      }
+
+      const response = await cloudinary.uploadImage(req.file);
+
+      await postService.deleteFile(req.file);
+
+      validated.image = response.secure_url;
+
       post = await postService.updatePost(_id, validated);
     } else {
       throw new Error('Unable to create draft');
