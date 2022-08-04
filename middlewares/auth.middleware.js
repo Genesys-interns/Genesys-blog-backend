@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import jwt from 'jsonwebtoken';
 
 const checkAuth = (req, res, next) => {
@@ -6,7 +7,7 @@ const checkAuth = (req, res, next) => {
 
     const token = authHeader && authHeader.split(' ')[1];
 
-      const decode = jwt.verify(token, process.env.TOKEN_SECRET,);
+    const decode = jwt.verify(token, process.env.TOKEN_SECRET);
     req.userData = decode;
     next();
   } catch (error) {

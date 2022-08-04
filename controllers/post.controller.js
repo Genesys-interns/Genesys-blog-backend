@@ -1,31 +1,56 @@
+/* eslint-disable import/no-named-as-default-member */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable import/extensions */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-unused-vars */
-import cloudinary from 'cloudinary';
+// import cloudinary from 'cloudinary';
 import _ from 'lodash';
+import cloudinary from '../config/cloudinary.config.js';
 import postService from '../services/post.service.js';
+import postvalidator from '../validators/post.validator.js';
+// import { deleteFile } from '../services/post.service'
 
 class PostController {
   async createPost(req, res, next) {
-    cloudinary.config({
-      cloud_name: process.env.CLOUD_NAME,
-      api_key: process.env.API_KEY,
-      api_secret: process.env.API_SECRET
-    });
-    const result = await cloudinary.v2.uploader.upload(req.file.path);
-    const body = {
-      title: req.body.title,
-      description: req.body.description,
-      category: req.body.category,
-      userId: req.body.userId,
-      body: req.body.body,
-      image: result.url
-    };
-    const post = await postService.postBlog(body);
-    return res
-      .status(201)
-      .send({ status: true, message: 'post created successfully', body: post });
+    const { _id, isPublished } = req.body;
+
+    const data = req.body;
+    data.userId = req.userData._id;
+    data.image = 'imageUrl'; // || req.file?.originalname;
+    const updateData = _.omit(data, '_id');
+
+    // file upload only happens when the post ready to be published
+    let post;
+
+    if (!_id) {
+      // if no post id exists create post(draft) with id
+      post = await postService.postBlog(updateData);
+    } else if (_id && !isPublished) {
+      // if post exists and isPublished status is set to false update post(draft)
+      post = await postService.updatePost(_id, _.omit(updateData, 'isPublished'));
+    } else if (_id && isPublished) {
+      // post exists and isPublished status is set to true update post(draft)
+      const validated = await postvalidator.validateAsync(updateData);
+      // upload post image to cloudinary
+      if (!('file' in req)) {
+        return res.status(404).send({
+          success: false,
+          message: 'no file found, please attached a file'
+        });
+      }
+
+      const response = await cloudinary.uploadImage(req.file);
+
+      await postService.deleteFile(req.file);
+
+      validated.image = response.secure_url;
+
+      post = await postService.updatePost(_id, validated);
+    } else {
+      throw new Error('Unable to create draft');
+    }
+
+    return res.status(201).send({ status: true, message: 'post created successfully', body: post });
   }
 
   async getPosts(req, res) {
@@ -156,6 +181,3 @@ class PostController {
   }
 }
 export default new PostController();
-
-/* eslint-disable class-methods-use-this */
-/* eslint-disable import/extensions */
