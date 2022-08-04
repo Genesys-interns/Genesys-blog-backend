@@ -19,6 +19,11 @@ class CommentController {
     }
     return res.status(200).send({ status: true, body: comment });
   }
+
+  async getUsersComments(id) {
+    const comment = await commentService.getUserReactions(id);
+    return comment;
+  }
 }
 
 export default new CommentController();

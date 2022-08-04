@@ -18,6 +18,10 @@ const commentSchema = mongoose.Schema({
   articleId: {
     required: true,
     type: String
+  },
+  editorsId: {
+    required: true,
+    type: String
   }
 
 }, { timeStamps: true });

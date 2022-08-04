@@ -3,6 +3,7 @@
 /* eslint-disable import/extensions */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-unused-vars */
+//import cloudinary from 'cloudinary';
 import _ from 'lodash';
 import cloudinary from '../config/cloudinary.config.js';
 import postService from '../services/post.service.js';
@@ -61,26 +62,23 @@ class PostController {
       status: true,
       body: post.map((doc) => ({
         title: doc.title,
-        price: doc.description,
-        imageUrl: `${process.env.production_route}${doc.image}`,
+        imageUrl: doc.image,
         description: doc.description,
         category: doc.category,
-
-        body: doc.body,
+        views: doc.views,
         userId: doc.userId,
 
         _id: doc._id,
         request: {
           type: 'GET',
-          url: `${process.env.production_route}${doc.image}`
+          url: doc.image
         }
       }))
     });
   }
 
   async articleByTitle(req, res) {
-    const { title } = req.params;
-    const article = await postService.findByTitle(title);
+    const article = await postService.findByTitle(req.params.title);
 
     if (!article) {
       return res.status(404).send({
@@ -96,7 +94,7 @@ class PostController {
   }
 
   async getPostByCategories(req, res) {
-    const post = await postService.getPostByCategory(req.query.category);
+    const post = await postService.getPostByCategory(req.params.category);
 
     if (!post) {
       res.status(404).send({
@@ -108,18 +106,15 @@ class PostController {
       status: true,
       body: post.map((doc) => ({
         title: doc.title,
-        price: doc.description,
-        imageUrl: `${process.env.production_route}${doc.image}`,
+        imageUrl: doc.image,
         description: doc.description,
         category: doc.category,
-
-        body: doc.body,
-        userId: doc.userId,
-
+        views: doc.views,
         _id: doc._id,
+        createdAt: doc.createdAt,
         request: {
           type: 'GET',
-          url: `${process.env.production_route}${doc.image}`
+          url: doc.image
         }
       }))
     });
@@ -130,7 +125,8 @@ class PostController {
     if (_.isEmpty(post)) {
       res.status(404).send({
         status: false,
-        message: 'Post does not exist, pleaase create a post before attempting to delete'
+        message:
+          'Post does not exist, pleaase create a post before attempting to delete'
       });
     }
     res.status(200).send({
@@ -155,6 +151,33 @@ class PostController {
         }
       }
     });
+  }
+
+  async fetchUserArticle(id) {
+    const userArticle = await postService.userPost(id);
+    return userArticle;
+  }
+
+  async fetchAllUserPosts(req, res) {
+    const userPosts = await postService.getUserPostById(req.params.id);
+    if (_.isEmpty(userPosts)) {
+      return res
+        .status(404)
+        .send({ status: true, message: 'this user has no posts' });
+    }
+    return res.status(200).send({ status: true, body: userPosts });
+  }
+
+  async fetchPostById(req, res) {
+    const posts = await postService.getPostById(req.params.id);
+    if (_.isEmpty(posts)) {
+      return res.status(404).send({ status: false, body: 'no post found' });
+    }
+    if (req.userData === undefined || req.userData !== req.posts.userId) {
+      const update = await postService.updatePost(req.params.id, { views: posts.views + 1 });
+    }
+
+    return res.status(200).send({ status: true, body: posts });
   }
 }
 export default new PostController();

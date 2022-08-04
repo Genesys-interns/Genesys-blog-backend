@@ -12,5 +12,10 @@ class CommentServices {
     const comment = await commentModel.find({ id });
     return comment;
   }
+
+  async getUserReactions(id) {
+    const comments = await commentModel.find({ editorsId: id });
+    return comments;
+  }
 }
 export default new CommentServices();
