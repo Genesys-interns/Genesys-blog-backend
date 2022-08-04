@@ -41,7 +41,6 @@ class PostController {
         description: doc.description,
         category: doc.category,
         views: doc.views,
-        body: doc.body,
         userId: doc.userId,
 
         _id: doc._id,
@@ -150,9 +149,15 @@ class PostController {
       return res.status(404).send({ status: false, body: 'no post found' });
     }
     if (req.userData === undefined || req.userData !== req.posts.userId) {
+<<<<<<< HEAD
      const update = await postService.updatePost(req.params.id, {views: posts.views + 1 });
      }
     
+=======
+      const update = await postService.updatePost(req.params.id, { views: posts.views + 1 });
+    }
+
+>>>>>>> 00a49f7bedd96920d6dccd2712bcff0df9acce7b
     return res.status(200).send({ status: true, body: posts });
   }
 }
