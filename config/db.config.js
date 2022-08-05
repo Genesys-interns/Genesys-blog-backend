@@ -1,5 +1,6 @@
 /* eslint-disable import/extensions */
 /* eslint-disable import/no-cycle */
+/* eslint-disable no-unused-vars */
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import { logger } from '../app.js';
@@ -7,7 +8,7 @@ import { logger } from '../app.js';
 dotenv.config();
 
 const database = () => {
-  mongoose.connect(process.env.MONGODB_URI).then(() => logger.info('database connected')).catch((err) => console.log(err));
+  mongoose.connect(process.env.MONGODB_URI).then((value) => logger.info('database connected')).catch((err) => logger.info(err));
 };
 
 export default database;

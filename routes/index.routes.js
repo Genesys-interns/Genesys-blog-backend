@@ -1,10 +1,19 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable import/extensions */
 import express from 'express';
-import verifyEmailRoute from './email.route.js';
+import postRouter from './post.routes.js';
+import userRouter from './user.routes.js';
+import userGoogleRouter from './userGoogle.routes.js';
+import forgotPasswordRouter from './forgot-password.routes.js';
 
 const router = express.Router();
 
-router.use('/sendEmail/', verifyEmailRoute);
+router.use('/post', postRouter);
+router.use('/users', userRouter);
+router.use('/users/google_signin', userGoogleRouter);
+router.use('v1/post', postRouter);
+router.use('/forgot-password', forgotPasswordRouter);
+
+router.use('/forgot-password', forgotPasswordRouter);
 
 export default router;

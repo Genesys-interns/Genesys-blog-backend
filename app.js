@@ -1,6 +1,6 @@
 /* eslint-disable import/no-cycle */
-/* eslint-disable import/prefer-default-export */
 /* eslint-disable import/extensions */
+import 'express-async-errors';
 import express from 'express';
 import pino from 'pino';
 import middleware from './middlewares/middlewares.js';
@@ -14,3 +14,5 @@ const PORT = process.env.PORT || 4011;
 app.listen(PORT, () => {
   logger.info(`PORT IS LISTENING ON ${PORT}`);
 });
+
+export default logger;

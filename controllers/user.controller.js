@@ -1,69 +1,84 @@
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable import/extensions */
 /* eslint-disable class-methods-use-this */
-import dotenv from 'dotenv';
-import jwt from 'jsonwebtoken';
+/* eslint-disable import/extensions */
+/* eslint-disable no-unused-vars */
 import _ from 'lodash';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import cloudinary from 'cloudinary';
 import UserService from '../services/user.service.js';
-import { transporter } from '../config/mail.config.js';
+import postController from './post.controller.js';
+import commentController from './comment.controller.js';
 
-dotenv.config();
 class UserController {
-  async sendVerificationEmail(req, res) {
-    const user = await UserService.findOne({ email: req.body.email });
-    // console.log(user)
-    if (_.isEmpty(user)) {
-      return res.status(404).send({
+  async create(req, res) {
+    const user = UserService.findByEmail(req.body);
+    if (!_.isEmpty(user)) {
+      return res.status(400).send({
         success: false,
-        message: 'invalid email'
+        message: 'User already exists'
       });
     }
+    const data = {
 
-    const verificationToken = user.generateAuthToken();
-    const url = `http://localhost:4011/sendEmail/verify/${verificationToken}`;
-
-    transporter.sendMail({
-      to: req.body.email,
-      subject: 'Verify Account',
-      html: `Click <a href = ${url}>here</a> to confirm your email.`
-    });
-
+      email: req.body.email,
+      password: bcrypt.hashSync(req.body.password, 10),
+      confirmPassword: req.body.password,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName
+    };
+    const newUser = await UserService.create(data);
     return res.status(201).send({
-      message: `Sent a verification email to ${req.body.email}`
+      success: true,
+      message: 'User created successfully',
+      data: newUser
     });
   }
 
-  async verify(req, res) {
-    const { token } = req.params;
-    // Check we have an id
-    if (!token) {
-      return res.status(422).send({
-        message: 'Missing Token'
-      });
+  async loginUser(req, res) {
+    const user = await UserService.findByEmail(req.body);
+    if (_.isEmpty(user)) {
+      return res.status(404).send({ success: false, body: 'user does not exist' });
     }
-    // Step 1 -  Verify the token from the URL
-    // let payload = null;
-    const decoded = jwt.verify(
-      token,
-      process.env.SECRET
-    );
-
-    // Step 2 - Find user with matching ID
-    const user = await UserService.findById(decoded._id);
-
-    if (!user) {
-      return res.status(404).send({
-        message: 'User does not exists'
-      });
+    const verifyPassword = bcrypt.compareSync(req.body.password, user.password);
+    if (!verifyPassword) {
+      return res.status(404).send({ success: false, message: 'email or password is invalid' });
     }
-    // Step 3 - Update user verification status to true
-    // user.verified = true;
-    await UserService.create(user);
-
+    const token = jwt.sign({ _id: user._id, email: user.email }, process.env.TOKEN_SECRET, { expiresIn: '200h', algorithm: 'HS512' });
     return res.status(200).send({
-      message: 'Account Verified'
+      success: true,
+      body: {
+        message: 'user logged in successfully',
+        token,
+        data: user
+      }
     });
+  }
+
+  async fetchUserDetails(req, res) {
+    const articles = await postController.fetchUserArticle(req.params.id);
+    const comments = await commentController.getUsersComments(req.params.id);
+
+    const userData = {
+      postLength: articles.length, reactions: comments.length, userPost: articles
+    };
+    return res.status(200).send({ status: true, body: userData });
+  }
+
+  async updateUserPhoto(req, res) {
+    cloudinary.config({
+      cloud_name: process.env.CLOUD_NAME,
+      api_key: process.env.API_KEY,
+      api_secret: process.env.API_SECRET
+    });
+    const result = await cloudinary.v2.uploader.upload(req.file.path);
+    const data = { photo: result.url };
+
+    const update = await UserService.updateUserImage(req.body.id, data);
+    if (update.acknowledged === true) {
+      return res.status(201).send({ status: true, message: 'image uploaded successfully' });
+    }
+    return res.status(200).send({ status: false, message: 'couldn\'t upload image...try again later!' });
   }
 }
-
 export default new UserController();
