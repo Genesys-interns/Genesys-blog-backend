@@ -1,5 +1,6 @@
 /* eslint-disable import/extensions */
 /* eslint-disable class-methods-use-this */
+import fsPromises from 'fs/promises';
 import postModel from '../models/post.model.js';
 
 class PostService {
@@ -44,22 +45,27 @@ class PostService {
   }
 
   async updatePost(id, data) {
-    const post = await postModel.updateOne({ _id: id }, data, {
-      runValidators: true
-    });
+    const post = await postModel.findByIdAndUpdate(id, data, { runValidators: true, new: true });
+    console.log('post');
     return post;
   }
 
-  async updatePostViews(id, data) {
-    const post = await postModel.updateOne({ _id: id }, data, {
-      runValidators: true
-    });
+  async getAllDrafts() {
+    const post = await postModel.find({ isPublished: false });
     return post;
   }
 
-  async userPost(id) {
-    const post = await postModel.find({ userId: id });
-    return post;
+  async deleteFile(file) {
+    // if the file exist
+    await fsPromises.access(file.path);
+    await fsPromises.unlink(file.path);
+    // try {
+
+    //   return true;
+    // } catch (error) {
+    //   // try is used here to avoid unnecessary error when a file does not exist
+    //   return false;
+    // }
   }
 }
 

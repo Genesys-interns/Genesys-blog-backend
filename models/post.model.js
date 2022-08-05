@@ -2,12 +2,12 @@ import mongoose from 'mongoose';
 
 const postSchema = mongoose.Schema({
   title: {
-    required: true,
+    // required: true,
     type: String
 
   },
   description: {
-    required: true,
+    // required: true,
     type: String
 
   },
@@ -16,25 +16,29 @@ const postSchema = mongoose.Schema({
     type: Number
   },
   category: {
-    required: true,
+    // required: true,
     type: String,
     enum: ['politics', 'entertainment', 'education', 'technology', 'sports', 'news']
   },
   body: {
-    required: true,
+    // required: true,
     type: String
   },
   userId: {
     required: true,
     type: String,
-    ref: 'Users'
+    ref: 'User' // kkk
   },
   image: {
-    required: true,
+   // required: true,
     type: String
+  },
+  isPublished: {
+    type: Boolean,
+    default: false
   }
 
 }, { timeStamps: true });
 
-const postModel = mongoose.model('Posts', postSchema);
+const postModel = mongoose.model('Post', postSchema);
 export default postModel;

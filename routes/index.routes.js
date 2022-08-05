@@ -11,9 +11,10 @@ const router = express.Router();
 router.use('/post', postRouter);
 router.use('/users', userRouter);
 router.use('/users/google_signin', userGoogleRouter);
-<<<<<<< HEAD
+router.use('v1/post', postRouter);
 router.use('/forgot-password', forgotPasswordRouter);
-=======
->>>>>>> 00a49f7bedd96920d6dccd2712bcff0df9acce7b
+
+router.use('/forgot-password', forgotPasswordRouter);
+
 
 export default router;
