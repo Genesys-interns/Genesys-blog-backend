@@ -62,20 +62,7 @@ class PostController {
     }
     return res.status(200).send({
       status: true,
-      body: post.map((doc) => ({
-        title: doc.title,
-        imageUrl: doc.image,
-        description: doc.description,
-        category: doc.category,
-        views: doc.views,
-        userId: doc.userId,
-
-        _id: doc._id,
-        request: {
-          type: 'GET',
-          url: doc.image
-        }
-      }))
+      body: post
     });
   }
 
@@ -106,19 +93,7 @@ class PostController {
     }
     res.status(200).send({
       status: true,
-      body: post.map((doc) => ({
-        title: doc.title,
-        imageUrl: doc.image,
-        description: doc.description,
-        category: doc.category,
-        views: doc.views,
-        _id: doc._id,
-        createdAt: doc.createdAt,
-        request: {
-          type: 'GET',
-          url: doc.image
-        }
-      }))
+      body: post 
     });
   }
 
