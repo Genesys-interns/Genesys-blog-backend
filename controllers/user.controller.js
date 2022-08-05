@@ -50,7 +50,7 @@ class UserController {
 
     // Step 2 - Find user with matching ID
     const user = await UserService.findById(decoded._id);
-    console.log(user);
+
     if (!user) {
       return res.status(404).send({
         message: 'User does not exists'
