@@ -45,4 +45,9 @@ userRouter.put(
   validator(imageValidator),
   userController.updateUserPhoto
 );
+
+userRouter.get(
+  '/verify/:token',
+  userController.verify
+);
 export default userRouter;

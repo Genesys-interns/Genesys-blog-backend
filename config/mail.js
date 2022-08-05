@@ -1,7 +1,9 @@
 /* eslint-disable import/no-named-as-default */
 import nodemailer from 'nodemailer';
 import Mailgen from 'mailgen';
+import dotenv from 'dotenv';
 
+dotenv.config();
 export const transporter = nodemailer.createTransport({
   service: 'gmail',
   secure: true,
