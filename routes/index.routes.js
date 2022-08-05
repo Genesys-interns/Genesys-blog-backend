@@ -5,6 +5,6 @@ import verifyEmailRoute from './email.route.js';
 
 const router = express.Router();
 
-router.use('/sendEmail', verifyEmailRoute);
+router.use('/sendEmail/', verifyEmailRoute);
 
 export default router;

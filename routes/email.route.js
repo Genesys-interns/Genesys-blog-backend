@@ -5,7 +5,7 @@ import UserController from '../controllers/user.controller.js';
 
 const emailSignupRoute = express.Router();
 
-emailSignupRoute.get('/', UserController.verifyEmail);
-// emailSignupRoute.get('/verifiyLink/:userId/:uniqueString', UserController.verifyLink);
+emailSignupRoute.post('/', UserController.sendVerificationEmail);
+emailSignupRoute.get('/verify/:token', UserController.verify);
 
 export default emailSignupRoute;

@@ -1,33 +1,17 @@
 /* eslint-disable no-underscore-dangle */
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
+dotenv.config();
 const userSchema = mongoose.Schema({
   email: {
     type: 'String',
     required: true,
     unique: true
   },
-  password: {
-    type: 'String',
-    required: true
-  },
-  firstName: {
-    type: 'String',
-    required: true
-  },
-  lastName: {
-    type: 'String',
-    required: true
-  },
-  googleId: {
-    type: String
-  },
-  photo: {
-    type: String
-  },
   verifiedAt: {
-    type: Date
+    type: false
   }
 
 }, { timeStamps: true });
@@ -38,10 +22,10 @@ userSchema.methods.generateAuthToken = function t() { // t is short for token
     _id: this._id,
     email: this.email,
     role: this.role
-  }, process.env.SECRET, { expiresIn: '7 days' });
-
+  }, process.env.SECRET, { expiresIn: '7d' });
   return token;
 };
 
 const User = mongoose.model('User', userSchema);
+
 export default User;

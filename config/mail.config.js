@@ -8,8 +8,8 @@ export const transporter = nodemailer.createTransport({
   service: 'gmail',
   secure: true,
   auth: {
-    user: process.env.AUTH_EMAIL,
-    pass: process.env.AUTH_PASSWORD
+    user: 'genesysblogapp@gmail.com',
+    pass: 'ltbanmrdfwkkqbmb'
   }
 });
 
