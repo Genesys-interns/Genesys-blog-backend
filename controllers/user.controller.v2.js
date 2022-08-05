@@ -6,13 +6,13 @@ import _ from 'lodash';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import cloudinary from 'cloudinary';
-import userService from '../services/user.service.js';
-import postController from './post.controller.js';
+import userService from '../services/user.service.v2.js';
+import postController from './post.controller.v2.js';
 
-import commentController from './comment.controller.js';
+import commentController from './comment.controller.v2.js';
 
 
-class UserController {
+class UserControllerV2 {
   async create(req, res) {
     const user = userService.findByEmail(req.body);
     if (!_.isEmpty(user)) {
@@ -76,12 +76,11 @@ class UserController {
     const result = await cloudinary.v2.uploader.upload(req.file.path);
     const data = { photo: result.url };
 
-
-    const update = await userService.updateUserImage(req.userData._id, data);
+    const update = await userService.updateUserImage(req.body.id, data);
     if (update.acknowledged === true) {
       return res.status(201).send({ status: true, message: 'image uploaded successfully' });
     }
     return res.status(200).send({ status: false, message: 'couldn\'t upload image...try again later!' });
   }
 }
-export default new UserController();
+export default new UserControllerV2();
