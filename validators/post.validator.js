@@ -9,6 +9,13 @@ const postvalidator = Joi.object({
   isPublished: Joi.string().required(),
   userId: Joi.string()
 });
+export const postvalidator2 = Joi.object({
+  title: Joi.string().required(),
+  description: Joi.string().required(),
+  category: Joi.string().required(),
+  body: Joi.string().required()
+});
+
 
 export const draftPostSchema = Joi.object({
   title: Joi.string(),
