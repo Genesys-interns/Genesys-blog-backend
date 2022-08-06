@@ -33,8 +33,9 @@ class UserController {
     const newUser = await UserService.create(data);
 
     const verificationToken = newUser.generateToken();
-    
-    const url = `${process.env.APP_URL}/users/verify/${verificationToken}`;
+    console.log(verificationToken);
+    const url = 
+      `${process.env.APP_URL}/api/v1/users/verify/${verificationToken}`;
     const response = {
       body: {
         name: `${req.body.firstName} ${req.body.lastName}`,
@@ -124,7 +125,7 @@ class UserController {
     // Step 1 -  Verify the token from the URL
     const decoded = jwt.verify(
       token,
-      process.env.SECRET
+      process.env.TOKEN_SECRET
     );
     const user = await UserService.findOne({ _id: decoded._id });
     if (!user) {
