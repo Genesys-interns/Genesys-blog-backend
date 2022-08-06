@@ -28,6 +28,7 @@ userRouter.post(
   userController.create
 );
 
+
 userRouter.post(
   "/login",
   [validator(validateUserSignInSchema)],
