@@ -93,7 +93,7 @@ class PostController {
     }
     res.status(200).send({
       status: true,
-      body: post 
+      body: post
     });
   }
 
@@ -121,11 +121,7 @@ class PostController {
       body: {
         data: { updatedArticle },
         createdAt: updatedArticle.createdAt,
-        updatedAt: updatedArticle.updatedAt,
-        request: {
-          type: 'GET'
-          // url: `localhost:3000/products/${updatedArticle._id}`
-        }
+        updatedAt: updatedArticle.updatedAt
       }
     });
   }
