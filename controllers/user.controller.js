@@ -33,6 +33,7 @@ class UserController {
     const newUser = await UserService.create(data);
 
     const verificationToken = newUser.generateToken();
+    console.log(verificationToken);
     const url = `${process.env.APP_URL}/users/verify/${verificationToken}`;
     const response = {
       body: {
