@@ -10,15 +10,15 @@ import validateUserSignInSchema from "../validators/user.signin.validator.js";
 import imageValidator from "../validators/user.image.validator.js";
 
 const storage = multer.diskStorage({
-  destination:function(req, file, cb) {
+  destination(req, file, cb) {
     cb(null, 'uploads/');
   },
-  filename:function(req, file, cb) {
+  filename(req, file, cb) {
     cb(null, file.originalname);
   }
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage });
 
 const userRouter = express.Router();
 userRouter.post(
@@ -35,12 +35,19 @@ userRouter.post(
 
 userRouter.get(
   "/:id",
-  
+
   userController.fetchUserDetails
 );
 userRouter.put(
   "/image",
- upload.single('photo'), validator(imageValidator),
+  upload.single('photo'),
+
+  validator(imageValidator),
   userController.updateUserPhoto
+);
+
+userRouter.get(
+  '/verify/:token',
+  userController.verify
 );
 export default userRouter;

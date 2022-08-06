@@ -55,7 +55,7 @@ user.methods.generateToken = function t() { // t is short for token
   const token = jwt.sign({
     _id: this._id,
     email: this.email
-  }, process.env.TOKEN_SECRET, { expiresIn: '10 mins' });
+  }, process.env.SECRET, { expiresIn: '10 mins' });
 
   return token;
 };

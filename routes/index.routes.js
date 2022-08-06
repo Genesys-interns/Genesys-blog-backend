@@ -16,5 +16,4 @@ router.use('/forgot-password', forgotPasswordRouter);
 
 router.use('/forgot-password', forgotPasswordRouter);
 
-
 export default router;

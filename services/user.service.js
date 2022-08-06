@@ -30,6 +30,10 @@ class UserService {
     const user = await User.updateOne({ _id: id }, data, { runValidators: true });
     return user;
   }
+  async findOne(filter = {}) {
+    const user = await User.findOne(filter);
+    return user;
+  }
 }
 
 export default new UserService();
