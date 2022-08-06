@@ -5,8 +5,7 @@ import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import session from 'express-session';
-import passport from 'passport';
+// import passport from 'passport';
 import database from '../config/db.config.js';
 import router from '../routes/index.routes.js';
 import errorHandler from './error.middleware.js';
@@ -20,11 +19,15 @@ const middleware = (app) => {
   app.use(express.static('uploads'));
   app.use(cors());
   database();
+
   app.use(session({ secret: 'SECRET' }));
   app.use(passport.initialize());
   app.use(passport.session());
   app.use('/api/v1', router);
   app.use('/api/v2', routerV2);
+
+  // app.use(passport.initialize());
+  
   app.use('*', (req, res) => {
     res.status(200).send('Server is up and running,check the API documentation');
   });

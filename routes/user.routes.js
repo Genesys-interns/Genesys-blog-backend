@@ -43,8 +43,16 @@ userRouter.get(
 userRouter.put(
 
   "/image",
+
   checkAuth,
+
   upload.single('photo'),
+
   userController.updateUserPhoto
+);
+
+userRouter.get(
+  '/verify/:token',
+  userController.verify
 );
 export default userRouter;

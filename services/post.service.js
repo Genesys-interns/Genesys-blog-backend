@@ -1,3 +1,4 @@
+
 /* eslint-disable import/extensions */
 /* eslint-disable class-methods-use-this */
 import fsPromises from 'fs/promises';
@@ -70,3 +71,4 @@ class PostService {
 }
 
 export default new PostService();
+
