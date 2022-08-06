@@ -1,4 +1,6 @@
+/* eslint-disable no-underscore-dangle */
 import mongoose from 'mongoose';
+import jwt from 'jsonwebtoken';
 
 const user = new mongoose.Schema({
 
@@ -24,6 +26,7 @@ const user = new mongoose.Schema({
     type: String
   },
   photo: {
+
     type: String
   }
   // googleId: {
@@ -37,16 +40,24 @@ const user = new mongoose.Schema({
   // photo: {
   //   required: true,
   //   type: String
-  //}
+  // }
 }, { timestamps: true });
 
-
-
-user.methods.toJSON = function () {
+user.methods.toJSON = function l() {
   const userObject = this.toObject();
   delete userObject.password;
   delete userObject.__v;
   return userObject;
+};
+
+// Define static method to be used on User object
+user.methods.generateToken = function t() { // t is short for token
+  const token = jwt.sign({
+    _id: this._id,
+    email: this.email
+  }, process.env.SECRET, { expiresIn: '10 mins' });
+
+  return token;
 };
 
 export const User = mongoose.model('User', user);
@@ -54,4 +65,3 @@ export const User = mongoose.model('User', user);
 export default {
   User
 };
-
