@@ -10,6 +10,6 @@ const draftRouter = express.Router();
 draftRouter.post('/', checkAuth, validator(draftPostSchema), draftsController.createDrafts);
 draftRouter.delete('/:id', checkAuth, draftsController.deleteDrafts);
 draftRouter.put('/:id', checkAuth, draftsController.updateDrafts);
-draftRouter.get('/:id', checkAuth, draftsController.getDrafts);
+draftRouter.get('/', checkAuth, draftsController.getDrafts);
 
 export default draftRouter;
