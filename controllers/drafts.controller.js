@@ -30,16 +30,16 @@ class DraftsController {
   }
 
   async deleteDrafts(req, res) {
-    const findDrafts = await draftsServices.getDrafts(req.params.id);
+    const findDrafts = await draftsServices.getDrafts(req.userData._id);
     if (_.isEmpty(findDrafts)) {
       return res.status(404).send({ status: false, message: 'the drafts you want to delete does not exist' });
     }
-    const deleteDrafts = await draftsServices.deleteDrafts(req.params.id);
+    const deleteDrafts = await draftsServices.deleteDrafts(req.userData._id);
     return res.status(200).send({ status: true, message: 'drafts deleted successfully' });
   }
 
   async getDrafts(req, res) {
-    const findDrafts = await draftsServices.getUserDrafts(req.params.id);
+    const findDrafts = await draftsServices.getUserDrafts(req.userData._id);
     if (_.isEmpty(findDrafts)) {
       return res.status(404).send({ status: false, message: 'this user has no drafts' });
       }
