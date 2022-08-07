@@ -72,7 +72,7 @@ class UserController {
   async loginUser(req, res) {
     const user = await UserService.findByEmail(req.body);
     if (_.isEmpty(user)) {
-      return res.status(404).send({ success: false, body: 'user does not exist' });
+      return res.status(400).send({ success: false, body: 'user does not exist' });
     }
     const verifyPassword = bcrypt.compareSync(req.body.password, user.password);
     if (!verifyPassword) {
