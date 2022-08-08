@@ -15,7 +15,7 @@ import commentController from './comment.controller.js';
 dotenv.config();
 class UserController {
   async create(req, res) {
-    const user = UserService.findByEmail(req.body);
+    const user = await UserService.findByEmail(req.body);
     if (!_.isEmpty(user)) {
       return res.status(400).send({
         success: false,
