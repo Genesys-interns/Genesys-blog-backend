@@ -93,9 +93,10 @@ class PostController {
         message: 'category does not exist'
       });
     }
+    const postData = _.omit(post, 'body');
     res.status(200).send({
       status: true,
-      body: post
+      body: postData,
     });
   }
 
