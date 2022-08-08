@@ -6,11 +6,7 @@ const postSchema = mongoose.Schema({
     type: String
 
   },
-  description: {
-    // required: true,
-    type: String
 
-  },
   views: {
     default: 0,
     type: Number
