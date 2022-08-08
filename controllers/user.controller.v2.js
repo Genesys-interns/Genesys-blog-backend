@@ -16,7 +16,7 @@ import commentController from './comment.controller.v2.js';
 
 class UserControllerV2 {
   async create(req, res) {
-    const user = UserService.findByEmail(req.body);
+    const user = await UserService.findByEmail(req.body);
     if (!_.isEmpty(user)) {
       return res.status(400).send({
         success: false,
