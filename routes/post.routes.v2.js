@@ -26,7 +26,6 @@ postRouterV2.get('/category/:category', postControllerV2.getPostByCategories);
 postRouterV2.post('/comments', checkAuth, validator(commentvalidator), commentController.postComments);
 postRouterV2.get('/comments/:id', commentController.getComments);
 postRouterV2.get('/id/:id', postControllerV2.fetchPostById);
-postRouterV2.get('/title/:title', postControllerV2.articleByTitle);
 
 
 postRouterV2.delete('/:id', postControllerV2.deletePost);
