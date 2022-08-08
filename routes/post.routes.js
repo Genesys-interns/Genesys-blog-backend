@@ -13,7 +13,6 @@ const postRouter = express.Router();
 
 postRouter.get('/:title', postController.articleByTitle);
 postRouter.patch('/:postid', postController.updateArticle);
-
 postRouter.post('/', [
   checkAuth,
   upload.single('image'),
@@ -26,7 +25,6 @@ postRouter.get('/category/:category', postController.getPostByCategories);
 postRouter.post('/comments', checkAuth, validator(commentvalidator), commentController.postComments);
 postRouter.get('/comments/:id', commentController.getComments);
 postRouter.get('/id/:id', postController.fetchPostById);
-postRouter.get('/title/:title', postController.articleByTitle);
 
 
 postRouter.delete('/:id', postController.deletePost);
