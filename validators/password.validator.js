@@ -10,7 +10,7 @@ export const validatePassword = async (password = '') => {
   return value;
 };
 
-const validateToken = async (token = '') => {
+export const validateToken = async (token = '') => {
   const schema = Joi.object({
     token: Joi.string().min(10).trim().required()
   });
@@ -20,11 +20,11 @@ const validateToken = async (token = '') => {
   return value;
 };
 
-const validatePasswordWithToken = async (data = {}) => {
+export const validatePasswordWithToken = async (data = {}) => {
   const { password } = await this.validatePassword(data.password);
   const { token } = await this.validateToken(data.token);
 
   return { password, token };
 };
 
-export default validatePasswordWithToken;
+export default { validatePasswordWithToken, validateToken, validatePassword };

@@ -16,7 +16,6 @@ export const postvalidator2 = Joi.object({
   body: Joi.string().required()
 });
 
-
 export const draftPostSchema = Joi.object({
   title: Joi.string(),
   isPublished: Joi.string(),
