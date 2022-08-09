@@ -1,31 +1,9 @@
-<<<<<<< HEAD
 import dotenv from 'dotenv';
 import passport from 'passport';
-import GoogleStrategy from 'passport-google-oauth2';
-
+import Strategy from 'passport-google-oauth2';
+const GoogleStrategy = Strategy.Strategy;
 dotenv.config();
 
-const passportConfig = () => {
-  const runStrategy = passport.use(
-    new GoogleStrategy(
-      {
-        clientID: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: 'https://localhost:4011/users/google/redirect'
-      },
-      () => {
-
-      }
-    )
-  );
-  return runStrategy;
-=======
-/* eslint-disable import/extensions */
-import passport from 'passport';
-import Strategy from 'passport-google-oauth2';
-import Userservice from '../services/user.service.js';
-
-const GoogleStrategy = Strategy.Strategy;
 const passportConfig = () => {
   passport.use(new GoogleStrategy(
     {
@@ -74,7 +52,6 @@ const passportConfig = () => {
   });
 
   return passport;
->>>>>>> 5a254e960019e181b83ef63020ec0512829ffe26
-};
+}
 
 export default passportConfig;
