@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const postSchema = mongoose.Schema({
+const draftsSchema = mongoose.Schema({
   title: {
     // required: true,
     type: String
@@ -40,5 +40,5 @@ const postSchema = mongoose.Schema({
 
 }, { timeStamps: true });
 
-const postModel = mongoose.model('Post', postSchema);
-export default postModel;
+const draftsModel = mongoose.model('Drafts', draftsSchema);
+export default draftsModel;

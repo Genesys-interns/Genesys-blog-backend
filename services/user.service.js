@@ -22,6 +22,18 @@ class UserService {
     const googleid = await User.findOne({ googleId });
     return googleid;
   }
+  async fetchUserDetails(id) {
+    const user = await User.findOne({ _id: id });
+    return user;
+  }
+  async updateUserImage(id, data) {
+    const user = await User.updateOne({ _id: id }, data, { runValidators: true });
+    return user;
+  }
+  async findOne(filter = {}) {
+    const user = await User.findOne(filter);
+    return user;
+  }
 }
 
 export default new UserService();

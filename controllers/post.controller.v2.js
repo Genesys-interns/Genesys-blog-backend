@@ -6,59 +6,30 @@
 // import cloudinary from 'cloudinary';
 import _ from 'lodash';
 import cloudinary from '../config/cloudinary.config.js';
-import postService from '../services/post.service.js';
-import postvalidator from '../validators/post.validator.js';
+import postServiceV2 from '../services/post.service.v2.js';
 // import { deleteFile } from '../services/post.service'
 
 class PostController {
   async createPost(req, res, next) {
-    const { _id, isPublished } = req.body;
-
-    const data = req.body;
-    data.userId = req.userData._id;
-
-    // || req.file?.originalname;
-    const updateData = _.omit(data, '_id');
-
-    // file upload only happens when the post ready to be published
-    // let post;
-
-    if (!_id) {
-      // if no post id exists create post(draft) with id
-      const post = await postService.postBlog(updateData);
-      return res.status(201).send({ status: true, message: 'post created successfully', body: post });
+    if (!req.file) {
+      return res
+        .status(400)
+        .send({ status: true, message: 'please upload an image' });
     }
-    if (_id && !isPublished) {
-      // if post exists and isPublished status is set to false update post(draft)
-      const post = await postService.updatePost(_id, _.omit(updateData, 'isPublished'));
-      return res.status(201).send({ status: true, message: 'post updated successfully', body: post });
-    } if (_id && isPublished) {
-      // post exists and isPublished status is set to true update post(draft)
-      await postvalidator.validateAsync(updateData);
-      // console.log(validated);
-      // upload post image to cloudinary
-      if (!('file' in req)) {
-        return res.status(404).send({
-          success: false,
-          message: 'no file found, please attached a file'
-        });
-      }
+    const result = await cloudinary.uploadImage(req.file.path);
 
-      const response = await cloudinary.uploadImage(req.file.path);
-
-      await postService.deleteFile(req.file);
-
-      updateData.image = response.url;
-      const posts = await postService.updatePost(_id, updateData);
-      return res.status(201).send({ status: true, message: 'post published successfully', body: posts });
-    }
-    throw new Error('Unable to create draft');
+    const { body } = req;
+    body.userId = req.userData._id;
+    body.image = result.url;
+    body.isPublished = true;
+    const post = await postServiceV2.postBlog(body);
+    return res
+      .status(201)
+      .send({ status: true, message: 'post created successfully', body: post });
   }
 
-  
-
   async getPosts(req, res) {
-    const post = await postService.getPost();
+    const post = await postServiceV2.getPost();
     if (_.isEmpty(post)) {
       return res.status(200).send({ staus: true, message: 'no posts found' });
     }
@@ -69,7 +40,7 @@ class PostController {
   }
 
   async articleByTitle(req, res) {
-    const article = await postService.findByTitle(req.params.title);
+    const article = await postServiceV2.findByTitle(req.params.title);
 
     if (!article) {
       return res.status(404).send({
@@ -85,7 +56,7 @@ class PostController {
   }
 
   async getPostByCategories(req, res) {
-    const post = await postService.getPostByCategory(req.params.category);
+    const post = await postServiceV2.getPostByCategory(req.params.category);
 
     if (!post) {
       res.status(404).send({
@@ -100,7 +71,7 @@ class PostController {
   }
 
   async deletePost(req, res) {
-    const post = await postService.findAndDeletePostById(req.params.id);
+    const post = await postServiceV2.findAndDeletePostById(req.params.id);
     if (_.isEmpty(post)) {
       res.status(404).send({
         status: false,
@@ -116,25 +87,29 @@ class PostController {
 
   async updateArticle(req, res) {
     const data = { id: req.params.postid, newData: req.body };
-    const updatedArticle = await postService.updatePost(data.id, data.newData);
+    const updatedArticle = await postServiceV2.updatePost(data.id, data.newData);
     return res.status(200).send({
       status: true,
       message: 'Successfully updated the selected collection',
       body: {
         data: { updatedArticle },
         createdAt: updatedArticle.createdAt,
-        updatedAt: updatedArticle.updatedAt
+        updatedAt: updatedArticle.updatedAt,
+        request: {
+          type: 'GET'
+          // url: `localhost:3000/products/${updatedArticle._id}`
+        }
       }
     });
   }
 
   async fetchUserArticle(id) {
-    const userArticle = await postService.getUserPostById(id);
+    const userArticle = await postServiceV2.getUserPostById(id);
     return userArticle;
   }
 
   async fetchAllUserPosts(req, res) {
-    const userPosts = await postService.getUserPostById(req.params.id);
+    const userPosts = await postServiceV2.getUserPostById(req.params.id);
     if (_.isEmpty(userPosts)) {
       return res
         .status(404)
@@ -144,7 +119,7 @@ class PostController {
   }
 
   async fetchPostById(req, res) {
-    const posts = await postService.getPostById(req.params.id);
+    const posts = await postServiceV2.getPostById(req.params.id);
     if (_.isEmpty(posts)) {
       return res.status(404).send({ status: false, body: 'no post found' });
     }

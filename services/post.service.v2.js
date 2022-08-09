@@ -1,10 +1,9 @@
-
 /* eslint-disable import/extensions */
 /* eslint-disable class-methods-use-this */
 import fsPromises from 'fs/promises';
 import postModel from '../models/post.model.js';
 
-class PostService {
+class PostServiceV2 {
   async postBlog(data) {
     const post = await postModel.create(data);
     return post;
@@ -47,7 +46,6 @@ class PostService {
 
   async updatePost(id, data) {
     const post = await postModel.findByIdAndUpdate(id, data, { runValidators: true, new: true });
-    
     return post;
   }
 
@@ -70,5 +68,4 @@ class PostService {
   }
 }
 
-export default new PostService();
-
+export default new PostServiceV2();

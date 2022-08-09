@@ -3,56 +3,45 @@
 /* eslint-disable import/extensions */
 import express from "express";
 import multer from 'multer';
-import userController from "../controllers/user.controller.js";
 import validateUserSignUpSchema from "../validators/user.validator.js";
 import validator from "../validators/validator.js";
 import validateUserSignInSchema from "../validators/user.signin.validator.js";
 import imageValidator from "../validators/user.image.validator.js";
+import userControllerV2 from "../controllers/user.controller.v2.js";
 import checkAuth from "../middlewares/auth.middleware.js";
 
 const storage = multer.diskStorage({
-  destination(req, file, cb) {
+  destination:function(req, file, cb) {
     cb(null, 'uploads/');
   },
-  filename(req, file, cb) {
+  filename:function(req, file, cb) {
     cb(null, file.originalname);
   }
 });
 
-const upload = multer({ storage });
+const upload = multer({ storage: storage });
 
-const userRouter = express.Router();
-userRouter.post(
+const userRouterV2 = express.Router();
+userRouterV2.post(
   "/",
   [validator(validateUserSignUpSchema)],
-  userController.create
+  userControllerV2.create
 );
 
-
-userRouter.post(
+userRouterV2.post(
   "/login",
   [validator(validateUserSignInSchema)],
-  userController.loginUser
+  userControllerV2.loginUser
 );
 
-userRouter.get(
+userRouterV2.get(
   "/:id",
-
-  userController.fetchUserDetails
+  
+  userControllerV2.fetchUserDetails
 );
-userRouter.put(
-
-  "/image",
-
-  checkAuth,
-
-  upload.single('photo'),
-
-  userController.updateUserPhoto
+userRouterV2.put(
+  "/image",checkAuth,
+ upload.single('photo'),
+  userControllerV2.updateUserPhoto
 );
-
-userRouter.get(
-  '/verify/:token',
-  userController.verify
-);
-export default userRouter;
+export default userRouterV2;
