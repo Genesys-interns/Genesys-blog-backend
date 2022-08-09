@@ -2,7 +2,7 @@ import Joi from 'joi';
 
 const postvalidator = Joi.object({
   title: Joi.string().required(),
-  description: Joi.string().required(),
+ // description: Joi.string().required(),
   category: Joi.string().required(),
   body: Joi.string().required(),
   _id: Joi.string(),
@@ -11,7 +11,7 @@ const postvalidator = Joi.object({
 });
 export const postvalidator2 = Joi.object({
   title: Joi.string().required(),
-  description: Joi.string().required(),
+ // description: Joi.string().required(),
   category: Joi.string().required(),
   body: Joi.string().required()
 });
