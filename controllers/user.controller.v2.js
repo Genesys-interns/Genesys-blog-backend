@@ -6,14 +6,15 @@ import _ from 'lodash';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import cloudinary from 'cloudinary';
-import dotenv from 'dotenv';
-import { transporter, mailGenerator } from '../config/mail.js';
-import UserService from '../services/user.service.js';
-import postController from './post.controller.js';
-import commentController from './comment.controller.js';
+import userService from '../services/user.service.v2.js';
+import postController from './post.controller.v2.js';
 
-dotenv.config();
-class UserController {
+import UserService from '../services/user.service.js';
+import { transporter, mailGenerator } from '../config/mail.js';
+import commentController from './comment.controller.v2.js';
+
+
+class UserControllerV2 {
   async create(req, res) {
     const user = await UserService.findByEmail(req.body);
     if (!_.isEmpty(user)) {
@@ -33,10 +34,7 @@ class UserController {
     const newUser = await UserService.create(data);
 
     const verificationToken = newUser.generateToken();
-    const url = 
-
-      `${process.env.APP_URL}api/v1/users/verify/${verificationToken}`;
-
+    const url = `${process.env.APP_URL}/api/v1/users/verify/${verificationToken}`;
     const response = {
       body: {
         name: `${req.body.firstName} ${req.body.lastName}`,
@@ -70,7 +68,7 @@ class UserController {
   }
 
   async loginUser(req, res) {
-    const user = await UserService.findByEmail(req.body);
+    const user = await userService.findByEmail(req.body);
     if (_.isEmpty(user)) {
       return res.status(404).send({ success: false, body: 'user does not exist' });
     }
@@ -94,7 +92,7 @@ class UserController {
     const comments = await commentController.getUsersComments(req.params.id);
 
     const userData = {
-      postLength: articles.length, reactions: comments.length, userPost: articles
+      postLength: articles.length, reactions: comments.length , userPost: articles
     };
     return res.status(200).send({ status: true, body: userData });
   }
@@ -108,40 +106,11 @@ class UserController {
     const result = await cloudinary.v2.uploader.upload(req.file.path);
     const data = { photo: result.url };
 
-    const update = await UserService.updateUserImage(req.body.id, data);
+    const update = await userService.updateUserImage(req.body.id, data);
     if (update.acknowledged === true) {
       return res.status(201).send({ status: true, message: 'image uploaded successfully' });
     }
     return res.status(200).send({ status: false, message: 'couldn\'t upload image...try again later!' });
   }
-
-  async verify(req, res) {
-    const { token } = req.params;
-    // Check we have an id
-    if (!token) {
-      return res.status(422).send({
-        message: 'Missing Token'
-      });
-    }
-    // Step 1 -  Verify the token from the URL
-    const decoded = jwt.verify(
-      token,
-      process.env.TOKEN_SECRET
-    );
-    const user = await UserService.findOne({ _id: decoded._id });
-    if (!user) {
-      return res.status(404).send({
-        message: 'User does not  exists'
-      });
-    }
-    // Step 3 - Update user verification status to true
-    user.verified = true;
-    await user.save();
-
-    return res.status(200).send({
-      message: 'Account Verified'
-    });
-  }
 }
-
-export default new UserController();
+export default new UserControllerV2();
