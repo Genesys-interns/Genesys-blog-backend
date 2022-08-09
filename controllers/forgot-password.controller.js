@@ -3,7 +3,7 @@
 /* eslint-disable class-methods-use-this */
 import { User } from '../models/user.model.js';
 import { sendPasswordResetMail, validateEmail } from '../services/forgot-password.services.js';
-
+import validatePasswordWithToken from '';
 class ForgotPasswordController {
   async reset(req, res) {
     const { email } = await validateEmail({ email: req.body.email });
@@ -23,6 +23,7 @@ class ForgotPasswordController {
       success: true,
       message: 'The link to reset your password has been sent to your mail'
     });
+    const validData = await validatePasswordWithToken(req.body);
   }
 }
 export default new ForgotPasswordController();
