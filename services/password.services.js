@@ -28,7 +28,7 @@ export const sendPasswordResetMail = async (user) => {
             'If you did not request for this mail, Please Ignore it. To reset your password, click on the link below:',
         button: {
           text: 'Reset password',
-          link: `${base}/users/password-reset?token=${token}`
+          link: `${base}/password/reset?token=${token}`
         }
       },
       outro: 'Do not share this link with anyone.'
