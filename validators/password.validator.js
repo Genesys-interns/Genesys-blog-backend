@@ -21,10 +21,10 @@ export const validateToken = async (token = '') => {
 };
 
 export const validatePasswordWithToken = async (data = {}) => {
-  const { password } = await this.validatePassword(data.password);
-  const { token } = await this.validateToken(data.token);
+  const { password } = await validatePassword(data.password);
+  const { token } = await validateToken(data.token);
 
   return { password, token };
 };
 
-export default { validatePasswordWithToken, validateToken, validatePassword };
+export default { validatePasswordWithToken };

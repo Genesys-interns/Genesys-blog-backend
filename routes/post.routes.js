@@ -8,7 +8,6 @@ import commentController from '../controllers/comment.controller.js';
 import checkAuth from '../middlewares/auth.middleware.js';
 import commentvalidator from '../validators/comment.validator.js';
 
-
 const postRouter = express.Router();
 
 postRouter.get('/:title', postController.articleByTitle);
@@ -27,7 +26,6 @@ postRouter.post('/comments', checkAuth, validator(commentvalidator), commentCont
 postRouter.get('/comments/:id', commentController.getComments);
 postRouter.get('/id/:id', postController.fetchPostById);
 postRouter.get('/title/:title', postController.articleByTitle);
-
 
 postRouter.delete('/:id', postController.deletePost);
 
