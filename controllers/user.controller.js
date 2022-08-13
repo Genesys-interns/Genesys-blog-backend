@@ -76,7 +76,7 @@ class UserController {
     }
     const verifyPassword = bcrypt.compareSync(req.body.password, user.password);
     if (!verifyPassword) {
-      return res.status(404).send({ success: false, message: 'email or password is invalid' });
+      return res.status(400).send({ success: false, message: 'email or password is invalid' });
     }
     const token = jwt.sign({ _id: user._id, email: user.email }, process.env.TOKEN_SECRET, { expiresIn: '200h', algorithm: 'HS512' });
     return res.status(200).send({
