@@ -28,6 +28,10 @@ const user = new mongoose.Schema({
   photo: {
 
     type: String
+  },
+  verified: {
+    type: Boolean,
+    default: false
   }
   // googleId: {
   //   required: true,
