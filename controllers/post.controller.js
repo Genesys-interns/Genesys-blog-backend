@@ -151,7 +151,6 @@ class PostController {
     }
     if (req.userData === undefined || req.userData !== req.posts.userId) {
     }
-
     return res.status(200).send({ status: true, body: posts });
   }
 }
