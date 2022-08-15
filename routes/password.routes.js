@@ -7,5 +7,6 @@ import passwordController from '../controllers/password.controller.js';
 
 const passwordRouter = express.Router();
 
-passwordRouter.post('/reset', passwordController.forgot);
+passwordRouter.post('/forgot', passwordController.forgot);
+passwordRouter.get('/reset', passwordController.reset);
 export default passwordRouter;

@@ -3,11 +3,10 @@ import express from 'express';
 import { upload } from '../config/multer.config.js';
 import postControllerV2 from '../controllers/post.controller.v2.js';
 import validator from '../validators/validator.js';
-import  { draftPostSchema, postvalidator2 } from '../validators/post.validator.js';
+import { postvalidator2 } from '../validators/post.validator.js';
 import commentController from '../controllers/comment.controller.js';
 import checkAuth from '../middlewares/auth.middleware.js';
 import commentvalidator from '../validators/comment.validator.js';
-
 
 const postRouterV2 = express.Router();
 
@@ -27,7 +26,6 @@ postRouterV2.post('/comments', checkAuth, validator(commentvalidator), commentCo
 postRouterV2.get('/comments/:id', commentController.getComments);
 postRouterV2.get('/id/:id', postControllerV2.fetchPostById);
 postRouterV2.get('/title/:title', postControllerV2.articleByTitle);
-
 
 postRouterV2.delete('/:id', postControllerV2.deletePost);
 

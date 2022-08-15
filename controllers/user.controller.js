@@ -34,8 +34,8 @@ class UserController {
 
     const verificationToken = newUser.generateToken();
     console.log(verificationToken);
-    const url = 
-      //`${process.env.APP_URL}
+    const url =
+    // `${process.env.APP_URL}
    `http://localhost:4011/api/v1/users/verify/${verificationToken}`;
     const response = {
       body: {

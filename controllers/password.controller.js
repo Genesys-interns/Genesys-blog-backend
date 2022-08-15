@@ -50,7 +50,7 @@ class PasswordController {
     if (!user) return res.status(404).send({ success: false, message: 'user not found' });
 
     // set password
-    const salt = await bcrypt.genSalt(10);
+    const salt = await bcrypt.genSalt(10); // hash password
     user.password = await bcrypt.hash(validData.password, salt);
 
     await user.save();

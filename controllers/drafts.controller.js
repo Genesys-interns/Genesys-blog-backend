@@ -1,3 +1,4 @@
+/* eslint-disable import/extensions */
 /* eslint-disable no-empty-function */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-underscore-dangle */
@@ -34,7 +35,7 @@ class DraftsController {
     if (_.isEmpty(findDrafts)) {
       return res.status(404).send({ status: false, message: 'the drafts you want to delete does not exist' });
     }
-    const deleteDrafts = await draftsServices.deleteDrafts(req.params.id);
+    await draftsServices.deleteDrafts(req.params.id);
     return res.status(200).send({ status: true, message: 'drafts deleted successfully' });
   }
 
@@ -42,8 +43,8 @@ class DraftsController {
     const findDrafts = await draftsServices.getUserDrafts(req.params.id);
     if (_.isEmpty(findDrafts)) {
       return res.status(404).send({ status: false, message: 'this user has no drafts' });
-      }
-      return res.status(404).send({ status: true, body: findDrafts });
+    }
+    return res.status(404).send({ status: true, body: findDrafts });
   }
 }
 

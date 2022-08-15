@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable import/extensions */
@@ -54,8 +55,6 @@ class PostController {
     }
     throw new Error('Unable to create draft');
   }
-
-  
 
   async getPosts(req, res) {
     const post = await postService.getPost();
@@ -149,9 +148,8 @@ class PostController {
       return res.status(404).send({ status: false, body: 'no post found' });
     }
     if (req.userData === undefined || req.userData !== req.posts.userId) {
+      return res.status(200).send({ status: true, body: posts });
     }
-
-    return res.status(200).send({ status: true, body: posts });
   }
 }
 export default new PostController();

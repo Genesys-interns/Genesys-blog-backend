@@ -4,7 +4,6 @@
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
-import bodyParser from 'body-parser';
 // import passport from 'passport';
 import database from '../config/db.config.js';
 import router from '../routes/index.routes.js';
@@ -14,7 +13,6 @@ import routerV2 from '../routes/index.routes.v2.js';
 const middleware = (app) => {
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
-  app.use(bodyParser.urlencoded({ extended: false }));
   app.use(morgan());
   app.use(express.static('uploads'));
   app.use(cors());
@@ -27,7 +25,6 @@ const middleware = (app) => {
   app.use('/api/v2', routerV2);
 
   // app.use(passport.initialize());
-  
   app.use('*', (req, res) => {
     res.status(200).send('Server is up and running,check the API documentation');
   });

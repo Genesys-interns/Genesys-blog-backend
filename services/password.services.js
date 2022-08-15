@@ -3,7 +3,7 @@
 import Joi from 'joi';
 import { mailGenerator, transporter } from '../config/mail.js';
 
-const BASE_PATH = '/forgot-password';
+const BASE_PATH = '/password';
 const base = `${process.env.APP_URL}${BASE_PATH}`;
 export const validateEmail = async (email) => {
   // email schema
@@ -28,7 +28,7 @@ export const sendPasswordResetMail = async (user) => {
             'If you did not request for this mail, Please Ignore it. To reset your password, click on the link below:',
         button: {
           text: 'Reset password',
-          link: `${base}/password/reset?token=${token}`
+          link: `${base}/reset?token=${token}`
         }
       },
       outro: 'Do not share this link with anyone.'
