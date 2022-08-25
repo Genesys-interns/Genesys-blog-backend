@@ -2,10 +2,10 @@
 import multer from 'multer';
 
 const storage = multer.diskStorage({
-  destination:function(req, file, cb) {
+  destination(req, file, cb) {
     cb(null, 'uploads/');
   },
-  filename:function(req, file, cb) {
+  filename(req, file, cb) {
     cb(null, file.originalname);
   }
 });
@@ -24,6 +24,6 @@ const fileFilter = (req, file, cb) => {
 };
 
 export const upload = multer({
-  fileFilter:fileFilter,
-  storage: storage
+  fileFilter,
+  storage
 });
