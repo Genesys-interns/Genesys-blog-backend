@@ -106,7 +106,7 @@ class PostController {
       res.status(404).send({
         status: false,
         message:
-          'Post does not exist, pleaase create a post before attempting to delete'
+          'Post does not exist, pleaase create a post before attempting to delete a post'
       });
     }
     res.status(200).send({
