@@ -1,7 +1,7 @@
 /* eslint-disable lines-between-class-members */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable import/extensions */
-import userModel, { User } from '../models/user.model.js';
+import { User } from '../models/user.model.js';
 
 class UserService {
   async create(data) {
@@ -19,15 +19,19 @@ class UserService {
   }
 
   async findUserByGoogle(googleId) {
-    const googleid = await User.findOne({ googleId :googleId});
+    const googleid = await User.findOne({ googleId });
     return googleid;
   }
   async fetchUserDetails(id) {
-    const user = await User.findOne({ _id:id });
+    const user = await User.findOne({ _id: id });
     return user;
   }
   async updateUserImage(id, data) {
     const user = await User.updateOne({ _id: id }, data, { runValidators: true });
+    return user;
+  }
+  async findOne(filter = {}) {
+    const user = await User.findOne(filter);
     return user;
   }
 }

@@ -2,7 +2,7 @@
 /* eslint-disable class-methods-use-this */
 import commentModel from '../models/comment.model.js';
 
-class CommentServices {
+class CommentServicesV2 {
   async postComment(data) {
     const comment = await commentModel.create(data);
     return comment;
@@ -18,4 +18,4 @@ class CommentServices {
     return comments;
   }
 }
-export default new CommentServices();
+export default new CommentServicesV2();

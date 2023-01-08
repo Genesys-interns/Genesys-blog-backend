@@ -1,12 +1,16 @@
 import mongoose from 'mongoose';
 
-const postSchema = mongoose.Schema({
+const draftsSchema = mongoose.Schema({
   title: {
     // required: true,
     type: String
 
   },
+  description: {
+    // required: true,
+    type: String
 
+  },
   views: {
     default: 0,
     type: Number
@@ -34,7 +38,7 @@ const postSchema = mongoose.Schema({
     default: false
   }
 
-}, { timestamps: true });
+}, { timeStamps: true });
 
-const postModel = mongoose.model('Post', postSchema);
-export default postModel;
+const draftsModel = mongoose.model('Drafts', draftsSchema);
+export default draftsModel;

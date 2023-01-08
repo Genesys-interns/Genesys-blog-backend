@@ -1,11 +1,10 @@
 /* eslint-disable import/extensions */
 import _ from 'lodash';
-import commentService from '../services/comment.service.js';
+import commentService from '../services/comment.service.v2.js';
 
 /* eslint-disable class-methods-use-this */
-class CommentController {
+class CommentControllerV2 {
   async postComments(req, res) {
-   
     const comment = await commentService.postComment(req.body);
     if (_.isEmpty(comment)) {
       return res.status(404).send({ status: false, message: 'unable to post comment' });
@@ -27,4 +26,4 @@ class CommentController {
   }
 }
 
-export default new CommentController();
+export default new CommentControllerV2();
