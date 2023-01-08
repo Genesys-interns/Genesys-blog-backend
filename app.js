@@ -3,7 +3,10 @@
 import 'express-async-errors';
 import express from 'express';
 import pino from 'pino';
+import dotenv from 'dotenv';
 import middleware from './middlewares/middlewares.js';
+
+dotenv.config();
 
 export const logger = pino();
 const app = express();

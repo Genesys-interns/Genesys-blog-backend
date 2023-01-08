@@ -55,8 +55,6 @@ class PostController {
     throw new Error('Unable to create draft');
   }
 
-  
-
   async getPosts(req, res) {
     const post = await postService.getPost();
     if (_.isEmpty(post)) {
@@ -96,7 +94,7 @@ class PostController {
 
     res.status(200).send({
       status: true,
-      body: post,
+      body: post
     });
   }
 
@@ -129,9 +127,18 @@ class PostController {
     });
   }
 
-  async fetchUserArticle(id) {
-    const userArticle = await postService.getUserPostById(id);
-    return userArticle;
+  async fetchUserArticle(req, res) {
+    const userArticle = await postService.getUserPostById(req.body.id);
+    if (_.isEmpty(userArticle)) {
+      return res.status(404).send({
+        status: false,
+        message: 'Article does not exist'
+      });
+    }
+    return res.status(200).send({
+      status: true,
+      data: userArticle
+    });
   }
 
   async fetchAllUserPosts(req, res) {
@@ -150,10 +157,13 @@ class PostController {
       return res.status(404).send({ status: false, body: 'no post found' });
     }
     if (req.userData === undefined || req.userData !== req.posts.userId) {
-      const update = await postService.updatePost(req.params.id, {views: posts.views + 1 });
+      await postService.updatePost(req.params.id, { views: posts.views + 1 });
     }
-    }
-    return res.status(200).send({ status: true, body: posts });
+    return res.status(200).send({
+      status: true,
+      body: posts
+    });
   }
 }
+
 export default new PostController();

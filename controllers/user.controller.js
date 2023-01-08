@@ -24,7 +24,7 @@ class UserController {
     }
     const data = {
 
-      email: req.body.email,
+      email: req.body.email.toLowercase(),
       password: bcrypt.hashSync(req.body.password, 10),
       confirmPassword: req.body.password,
       firstName: req.body.firstName,
@@ -33,9 +33,7 @@ class UserController {
     const newUser = await UserService.create(data);
 
     const verificationToken = newUser.generateToken();
-    const url = 
-
-      `${process.env.APP_URL}/api/v1/users/verify/${verificationToken}`;
+    const url = `${process.env.APP_URL}/api/v1/users/verify/${verificationToken}`;
 
     const response = {
       body: {
