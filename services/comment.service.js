@@ -8,11 +8,12 @@ class CommentServices {
   }
 
   async getComment(id) {
-    const comment = await commentModel.find({articleId:id});
+    const comment = await commentModel.find({ articleId: id });
     return comment;
   }
+
   async getUserReactions(id) {
-    const comments = await commentModel.find({editorsId:id});
+    const comments = await commentModel.find({ editorsId: id });
     return comments;
   }
 }

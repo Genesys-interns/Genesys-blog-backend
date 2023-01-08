@@ -6,16 +6,14 @@ import _ from 'lodash';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import cloudinary from 'cloudinary';
-import UserService from '../services/user.service.js';
 import userService from '../services/user.service.js';
 import postController from './post.controller.js';
 
 import commentController from './comment.controller.js';
 
-
 class UserController {
   async create(req, res) {
-    const user = UserService.findByEmail(req.body);
+    const user = userService.findByEmail(req.body);
     if (!_.isEmpty(user)) {
       return res.status(400).send({
         success: false,
@@ -24,13 +22,13 @@ class UserController {
     }
     const data = {
 
-      email: req.body.email,
+      email: req.body.email.toLowerCase(),
       password: bcrypt.hashSync(req.body.password, 10),
       confirmPassword: req.body.password,
       firstName: req.body.firstName,
       lastName: req.body.lastName
     };
-    const newUser = await UserService.create(data);
+    const newUser = await userService.create(data);
     return res.status(201).send({
       success: true,
       message: 'User created successfully',
@@ -39,7 +37,7 @@ class UserController {
   }
 
   async loginUser(req, res) {
-    const user = await UserService.findByEmail(req.body);
+    const user = await userService.findByEmail(req.body);
     if (_.isEmpty(user)) {
       return res.status(404).send({ success: false, body: 'user does not exist' });
     }
@@ -47,7 +45,7 @@ class UserController {
     if (!verifyPassword) {
       return res.status(404).send({ success: false, message: 'email or password is invalid' });
     }
-    const token = jwt.sign({ _id: user._id, email: user.email }, process.env.TOKEN_SECRET, { expiresIn: '200h', algorithm: 'HS512' });
+    const token = jwt.sign({ _id: user._id, email: user.email }, process.env.TOKEN_SECRET, { expiresIn: '24h', algorithm: 'HS512' });
     return res.status(200).send({
       success: true,
       body: {
@@ -63,9 +61,14 @@ class UserController {
     const comments = await commentController.getUsersComments(req.params.id);
 
     const userData = {
-      postLength: articles.length, reactions: comments.length , userPost: articles
+      postLength: articles.length,
+      reactions: comments.length,
+      userPost: articles
     };
-    return res.status(200).send({ status: true, body: userData });
+    return res.status(200).send({
+      status: true,
+      body: userData
+    });
   }
 
   async updateUserPhoto(req, res) {
@@ -79,9 +82,15 @@ class UserController {
 
     const update = await userService.updateUserImage(req.body.id, data);
     if (update.acknowledged === true) {
-      return res.status(201).send({ status: true, message: 'image uploaded successfully' });
+      return res.status(201).send({
+        status: true,
+        message: 'image uploaded successfully'
+      });
     }
-    return res.status(200).send({ status: false, message: 'couldn\'t upload image...try again later!' });
+    return res.status(200).send({
+      status: false,
+      message: 'couldn\'t upload image...try again later!'
+    });
   }
 }
 export default new UserController();
