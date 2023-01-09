@@ -3,7 +3,7 @@ import express from 'express';
 import { upload } from '../config/multer.config.js';
 import postController from '../controllers/post.controller.js';
 import validator from '../validators/validator.js';
-import { draftPostSchema } from '../validators/post.validator.js';
+// import { draftPostSchema } from '../validators/post.validator.js';
 import commentController from '../controllers/comment.controller.js';
 import checkAuth from '../middlewares/auth.middleware.js';
 import commentvalidator from '../validators/comment.validator.js';
@@ -21,8 +21,7 @@ postRouter.patch('/:postid', postController.updateArticle);
 
 postRouter.post('/create', [
   checkAuth,
-  upload.single('image'),
-  validator(draftPostSchema)
+  upload.single('image')
 ], postControllerV2.createPost);
 
 postRouter.get('/', postController.getPosts);

@@ -1,4 +1,3 @@
-
 /* eslint-disable import/extensions */
 /* eslint-disable class-methods-use-this */
 import fsPromises from 'fs/promises';
@@ -31,7 +30,7 @@ class PostService {
   }
 
   async findByTitle(title) {
-    const post = await postModel.find({ title:title });
+    const post = await postModel.find({ title });
     return post;
   }
 
@@ -47,7 +46,7 @@ class PostService {
 
   async updatePost(id, data) {
     const post = await postModel.findByIdAndUpdate(id, data, { runValidators: true, new: true });
-    
+
     return post;
   }
 
@@ -71,4 +70,3 @@ class PostService {
 }
 
 export default new PostService();
-

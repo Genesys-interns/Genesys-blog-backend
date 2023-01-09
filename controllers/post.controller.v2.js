@@ -6,57 +6,97 @@
 // import cloudinary from 'cloudinary';
 import _ from 'lodash';
 import cloudinary from '../config/cloudinary.config.js';
-import postServiceV2 from '../services/post.service.v2.js';
+import postService from '../services/post.service.js';
 // import { deleteFile } from '../services/post.service'
 
 class PostController2 {
-  async createPost(req, res, next) {
+  async createPost(req, res) {
     if (!req.file) {
       return res
         .status(400)
-        .send({ status: true, message: 'please upload an image' });
+        .send({ status: false, message: 'please upload an image' });
     }
     const result = await cloudinary.uploadImage(req.file.path);
 
-    const { body } = req;
-    body.userId = req.userData._id;
-    body.image = result.url;
-    body.isPublished = true;
-    const post = await postServiceV2.postBlog(body);
+    const data = {
+      title: req.body.title,
+      category: req.body.category,
+      body: req.body.body,
+      image: result.url,
+      userId: req.user._id
+    };
+
+    if (_.isEmpty(data.title || data.category || data.image || data.userId || data.body)) {
+      return res.status(404).send({
+        success: false,
+        message: 'title, category, body, image and userId are required to create post'
+      });
+    }
+
+    const post = await postService.postBlog(data);
     return res
       .status(201)
-      .send({ status: true, message: 'post created successfully', body: post });
+      .send({ status: true, message: 'post created successfully', data: post });
+  }
+
+  async like(req, res) {
+    const post = await postService.getPostById(req.body.id);
+    if (_.isEmpty(post)) {
+      res.status(404).send({
+        success: false,
+        message: 'Post does not exist'
+      });
+    }
+    post.likes += 1;
+    await post.save();
+    if (post.likes === 1) {
+      return res.status(200).send({
+        success: true,
+        message: 'This post was liked one time'
+      });
+    }
+    if (post.likes === 0) {
+      return res.status(200).send({
+        success: true,
+        message: 'This post has not been liked'
+
+      });
+    }
+    return res.status(200).send({
+      success: true,
+      message: `This post was liked ${post.likes} times.`
+    });
   }
 
   async getPosts(req, res) {
-    const post = await postServiceV2.getPost();
+    const post = await postService.getPost();
     if (_.isEmpty(post)) {
       return res.status(200).send({ staus: true, message: 'no posts found' });
     }
     return res.status(200).send({
       status: true,
-      body: post
+      data: post
     });
   }
 
   async articleByTitle(req, res) {
-    const article = await postServiceV2.findByTitle(req.params.title);
+    const article = await postService.findByTitle(req.params.title);
 
     if (!article) {
       return res.status(404).send({
         success: false,
-        body: 'Could not find the requested article'
+        message: 'Could not find the requested article'
       });
     }
 
     return res.status(201).send({
       success: true,
-      body: article
+      data: article
     });
   }
 
   async getPostByCategories(req, res) {
-    const post = await postServiceV2.getPostByCategory(req.params.category);
+    const post = await postService.getPostByCategory(req.params.category);
 
     if (!post) {
       res.status(404).send({
@@ -66,12 +106,12 @@ class PostController2 {
     }
     res.status(200).send({
       status: true,
-      body: post
+      data: post
     });
   }
 
   async deletePost(req, res) {
-    const post = await postServiceV2.findAndDeletePostById(req.params.id);
+    const post = await postService.findAndDeletePostById(req.params.id);
     if (_.isEmpty(post)) {
       res.status(404).send({
         status: false,
@@ -87,49 +127,44 @@ class PostController2 {
 
   async updateArticle(req, res) {
     const data = { id: req.params.postid, newData: req.body };
-    const updatedArticle = await postServiceV2.updatePost(data.id, data.newData);
+    const updatedArticle = await postService.updatePost(data.id, data.newData);
     return res.status(200).send({
       status: true,
       message: 'Successfully updated the selected collection',
-      body: {
-        data: { updatedArticle },
-        createdAt: updatedArticle.createdAt,
-        updatedAt: updatedArticle.updatedAt,
-        request: {
-          type: 'GET'
-          // url: `localhost:3000/products/${updatedArticle._id}`
-        }
-      }
+      data: updatedArticle,
+      createdAt: updatedArticle.createdAt,
+      updatedAt: updatedArticle.updatedAt
+
     });
   }
 
   async fetchUserArticle(id) {
-    const userArticle = await postServiceV2.getUserPostById(id);
+    const userArticle = await postService.getUserPostById(id);
     return userArticle;
   }
 
   async fetchAllUserPosts(req, res) {
-    const userPosts = await postServiceV2.getUserPostById(req.params.id);
+    const userPosts = await postService.getUserPostById(req.params.id);
     if (_.isEmpty(userPosts)) {
       return res
         .status(404)
         .send({ status: true, message: 'this user has no posts' });
     }
-    return res.status(200).send({ status: true, body: userPosts });
+    return res.status(200).send({ status: true, data: userPosts });
   }
 
   async fetchPostById(req, res) {
-    const posts = await postServiceV2.getPostById(req.params.id);
+    const posts = await postService.getPostById(req.params.id);
     if (_.isEmpty(posts)) {
       return res.status(404).send({ status: false, body: 'no post found' });
     }
     if (req.userData === undefined || req.userData !== req.posts.userId) {
       return res
         .status(404)
-        .send({ status: false, body: 'user does not have access to this post' });
+        .send({ status: false, message: 'user does not have access to this post' });
     }
 
-    return res.status(200).send({ status: true, body: posts });
+    return res.status(200).send({ status: true, data: posts });
   }
 }
 export default new PostController2();

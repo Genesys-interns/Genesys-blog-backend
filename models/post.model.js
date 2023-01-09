@@ -29,10 +29,10 @@ const postSchema = mongoose.Schema({
     // required: true,
     type: String
   },
-  isPublished: {
-    type: Boolean,
-    default: false
-  },
+  // isPublished: {
+  //   type: Boolean,
+  //   default: false
+  // },
   likes: {
     type: Number,
     default: 0
