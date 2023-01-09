@@ -25,6 +25,7 @@ class PostController2 {
       image: result.url,
       userId: req.user._id
     };
+    console.log(data);
 
     if (_.isEmpty(data.title || data.category || data.image || data.userId || data.body)) {
       return res.status(404).send({
