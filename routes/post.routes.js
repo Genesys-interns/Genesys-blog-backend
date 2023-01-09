@@ -7,17 +7,23 @@ import { draftPostSchema } from '../validators/post.validator.js';
 import commentController from '../controllers/comment.controller.js';
 import checkAuth from '../middlewares/auth.middleware.js';
 import commentvalidator from '../validators/comment.validator.js';
-
+import postControllerV2 from '../controllers/post.controller.v2.js';
 
 const postRouter = express.Router();
 
 postRouter.get('/:title', postController.articleByTitle);
 postRouter.patch('/:postid', postController.updateArticle);
-postRouter.post('/', [
+// postRouter.post('/', [
+//   checkAuth,
+//   upload.single('image'),
+//   validator(draftPostSchema)
+// ], postController.createPost);
+
+postRouter.post('/create', [
   checkAuth,
   upload.single('image'),
   validator(draftPostSchema)
-], postController.createPost);
+], postControllerV2.createPost);
 
 postRouter.get('/', postController.getPosts);
 postRouter.get('/category/:category', postController.getPostByCategories);
@@ -25,7 +31,6 @@ postRouter.get('/category/:category', postController.getPostByCategories);
 postRouter.post('/comments', checkAuth, validator(commentvalidator), commentController.postComments);
 postRouter.get('/comments/:id', commentController.getComments);
 postRouter.get('/id/:id', postController.fetchPostById);
-
 
 postRouter.delete('/:id', postController.deletePost);
 

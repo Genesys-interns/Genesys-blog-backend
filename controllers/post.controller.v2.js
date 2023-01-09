@@ -9,7 +9,7 @@ import cloudinary from '../config/cloudinary.config.js';
 import postServiceV2 from '../services/post.service.v2.js';
 // import { deleteFile } from '../services/post.service'
 
-class PostController {
+class PostController2 {
   async createPost(req, res, next) {
     if (!req.file) {
       return res
@@ -132,4 +132,4 @@ class PostController {
     return res.status(200).send({ status: true, body: posts });
   }
 }
-export default new PostController();
+export default new PostController2();
