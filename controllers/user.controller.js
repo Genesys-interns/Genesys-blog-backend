@@ -31,9 +31,10 @@ class UserController {
       lastName: req.body.lastName
     };
 
-    if (data.password !== data.confirmPassword) {
-      return res.send({
-        message: 'password and confirm password dont match'
+    const compare = bcrypt.compareSync(data.confirmPassword, data.password);
+    if (!compare) {
+      res.send({
+        message: 'confirm password and password mismatch'
       });
     }
     const newUser = await UserService.create(data);
