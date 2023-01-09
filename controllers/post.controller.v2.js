@@ -124,6 +124,9 @@ class PostController {
       return res.status(404).send({ status: false, body: 'no post found' });
     }
     if (req.userData === undefined || req.userData !== req.posts.userId) {
+      return res
+        .status(404)
+        .send({ status: false, body: 'user does not have access to this post' });
     }
 
     return res.status(200).send({ status: true, body: posts });

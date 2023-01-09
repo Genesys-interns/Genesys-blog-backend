@@ -30,10 +30,16 @@ class UserController {
       firstName: req.body.firstName,
       lastName: req.body.lastName
     };
+
+    if (data.password !== data.confirmPassword) {
+      return res.send({
+        message: 'password and confirm password dont match'
+      });
+    }
     const newUser = await UserService.create(data);
 
     const verificationToken = newUser.generateToken();
-    const url = `${process.env.APP_URL}/api/v1/users/verify/${verificationToken}`;
+    const url = `${process.env.APP_URL}users/verify/${verificationToken}`;
 
     const response = {
       body: {

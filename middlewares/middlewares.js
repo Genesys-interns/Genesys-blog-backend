@@ -8,7 +8,6 @@ import bodyParser from 'body-parser';
 import database from '../config/db.config.js';
 import router from '../routes/index.routes.js';
 import errorHandler from './error.middleware.js';
-import routerV2 from '../routes/index.routes.v2.js';
 
 const middleware = (app) => {
   app.use(express.urlencoded({ extended: true }));
@@ -22,8 +21,7 @@ const middleware = (app) => {
   // app.use(session({ secret: 'SECRET' }));
   // app.use(passport.initialize());
   // app.use(passport.session());
-  app.use('/api/v1', router);
-  app.use('/api/v2', routerV2);
+  app.use(router);
 
   // app.use(passport.initialize());
 
