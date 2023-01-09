@@ -1,18 +1,25 @@
+/* eslint-disable import/no-cycle */
+/* eslint-disable import/extensions */
 /* eslint-disable consistent-return */
-import jwt from 'jsonwebtoken';
+import Jwt from 'jsonwebtoken';
+import logger from '../app.js';
 
-const checkAuth = (req, res, next) => {
-  try {
-    const authHeader = req.headers.authorization;
+const authentication = (req, res, next) => {
+  const authHeader = req.headers.authorization;
 
-    const token = authHeader && authHeader.split(' ')[1];
+  const token = authHeader && authHeader.split(' ')[1];
 
-    const decode = jwt.verify(token, process.env.TOKEN_SECRET);
-    req.userData = decode;
+  Jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+    if (err) {
+      logger.error(err);
+      return res.status(403).send({
+        success: false,
+        message: 'authentication error'
+      });
+    }
+    req.user = user;
     next();
-  } catch (error) {
-    return res.status(401).send({ message: 'auth failed' });
-  }
+  });
 };
 
-export default checkAuth;
+export default authentication;

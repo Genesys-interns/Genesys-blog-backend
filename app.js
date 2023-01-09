@@ -8,7 +8,7 @@ import middleware from './middlewares/middlewares.js';
 
 dotenv.config();
 
-export const logger = pino();
+const logger = pino();
 const app = express();
 
 middleware(app);

@@ -17,7 +17,6 @@ class PostController2 {
         .send({ status: false, message: 'please upload an image' });
     }
     const result = await cloudinary.uploadImage(req.file.path);
-
     const data = {
       title: req.body.title,
       category: req.body.category,
@@ -25,7 +24,6 @@ class PostController2 {
       image: result.url,
       userId: req.user._id
     };
-    console.log(data);
 
     if (_.isEmpty(data.title || data.category || data.image || data.userId || data.body)) {
       return res.status(404).send({
