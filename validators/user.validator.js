@@ -9,7 +9,8 @@ const validateUserSignUpSchema = Joi.object().keys({
     .required(),
   firstName: Joi.string().required(),
   lastName: Joi.string().required(),
-  password: Joi.string().required()
+  password: Joi.string().required(),
+  confirmPassword: Joi.string().required()
 });
 
 export default validateUserSignUpSchema;
