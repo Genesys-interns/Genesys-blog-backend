@@ -66,7 +66,7 @@ class PostController {
     });
   }
 
-  async articleByTitle(req, res) {
+  async postByTitle(req, res) {
     const article = await postService.findByTitle(req.params.title);
 
     if (!article) {
@@ -152,12 +152,12 @@ class PostController {
   }
 
   async fetchPostById(req, res) {
-    const posts = await postService.getPostById(req.params.id);
+    const posts = await postService.getPostById(req.body.id);
     if (_.isEmpty(posts)) {
       return res.status(404).send({ status: false, body: 'no post found' });
     }
     if (req.userData === undefined || req.userData !== req.posts.userId) {
-      await postService.updatePost(req.params.id, { views: posts.views + 1 });
+      await postService.updatePost(req.body.id, { views: posts.views + 1 });
     }
     return res.status(200).send({
       status: true,

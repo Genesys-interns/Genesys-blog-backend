@@ -35,7 +35,11 @@ class PostController2 {
     const post = await postService.postBlog(data);
     return res
       .status(201)
-      .send({ status: true, message: 'post created successfully', data: post });
+      .send({
+        status: true,
+        message: 'post created successfully',
+        data: post
+      });
   }
 
   async like(req, res) {
@@ -152,8 +156,8 @@ class PostController2 {
     return res.status(200).send({ status: true, data: userPosts });
   }
 
-  async fetchPostById(req, res) {
-    const posts = await postService.getPostById(req.params.id);
+  async getPostById(req, res) {
+    const posts = await postService.getPostById(req.body.id);
     if (_.isEmpty(posts)) {
       return res.status(404).send({ status: false, body: 'no post found' });
     }
@@ -163,7 +167,10 @@ class PostController2 {
         .send({ status: false, message: 'user does not have access to this post' });
     }
 
-    return res.status(200).send({ status: true, data: posts });
+    return res.status(200).send({
+      status: true,
+      data: posts
+    });
   }
 }
 export default new PostController2();

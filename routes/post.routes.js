@@ -1,35 +1,27 @@
+/* eslint-disable import/no-cycle */
 /* eslint-disable import/extensions */
 import express from 'express';
 import { upload } from '../config/multer.config.js';
 import postController from '../controllers/post.controller.js';
 import validator from '../validators/validator.js';
-// import { draftPostSchema } from '../validators/post.validator.js';
 import commentController from '../controllers/comment.controller.js';
 import checkAuth from '../middlewares/auth.middleware.js';
 import commentvalidator from '../validators/comment.validator.js';
 import postControllerV2 from '../controllers/post.controller.v2.js';
+import { postIdValidator } from '../validators/post.validator.js';
 
 const postRouter = express.Router();
 
-postRouter.get('/:title', postController.articleByTitle);
-postRouter.patch('/:postid', postController.updateArticle);
-// postRouter.post('/', [
-//   checkAuth,
-//   upload.single('image'),
-//   validator(draftPostSchema)
-// ], postController.createPost);
+postRouter.post('/create', [checkAuth, upload.single('image')], postControllerV2.createPost);
 
-postRouter.post('/create', [
-  checkAuth,
-  upload.single('image')
-], postControllerV2.createPost);
+postRouter.get('/', postControllerV2.getPosts);
 
-postRouter.get('/', postController.getPosts);
+postRouter.get('/id', [checkAuth, validator(postIdValidator)], postControllerV2.getPostById);
+
 postRouter.get('/category/:category', postController.getPostByCategories);
 
 postRouter.post('/comments', checkAuth, validator(commentvalidator), commentController.postComments);
 postRouter.get('/comments/:id', commentController.getComments);
-postRouter.get('/id/:id', postController.fetchPostById);
 
 postRouter.delete('/:id', postController.deletePost);
 

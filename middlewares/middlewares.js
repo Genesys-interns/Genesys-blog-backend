@@ -13,7 +13,7 @@ const middleware = (app) => {
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
   app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(morgan());
+  app.use(morgan('combined'));
   app.use(express.static('uploads'));
   app.use(cors());
   database();

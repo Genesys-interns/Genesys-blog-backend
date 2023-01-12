@@ -13,9 +13,6 @@ const postvalidator = Joi.object({
 });
 export const postvalidator2 = Joi.object({
   title: Joi.string().required(),
-
-  // description: Joi.string().required(),
-
   category: Joi.string().required(),
   body: Joi.string().required()
 });
@@ -26,6 +23,10 @@ export const draftPostSchema = Joi.object({
   category: Joi.string(),
   body: Joi.string(),
   _id: Joi.string()
+});
+
+export const postIdValidator = Joi.object({
+  id: Joi.string().required()
 });
 
 export default postvalidator;
