@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-const postvalidator = Joi.object({
+export const postvalidator = Joi.object({
   title: Joi.string().required(),
 
   // description: Joi.string().required(),
@@ -29,4 +29,6 @@ export const postIdValidator = Joi.object({
   id: Joi.string().required()
 });
 
-export default postvalidator;
+export const postCategoryValidator = Joi.object({
+  category: Joi.string().required()
+});

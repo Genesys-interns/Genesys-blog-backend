@@ -2,13 +2,12 @@
 /* eslint-disable import/extensions */
 import express from 'express';
 import { upload } from '../config/multer.config.js';
-import postController from '../controllers/post.controller.js';
 import validator from '../validators/validator.js';
 import commentController from '../controllers/comment.controller.js';
 import checkAuth from '../middlewares/auth.middleware.js';
 import commentvalidator from '../validators/comment.validator.js';
 import postControllerV2 from '../controllers/post.controller.v2.js';
-import { postIdValidator } from '../validators/post.validator.js';
+import { postCategoryValidator, postIdValidator } from '../validators/post.validator.js';
 
 const postRouter = express.Router();
 
@@ -22,7 +21,7 @@ postRouter.post('/like', [checkAuth, validator(postIdValidator)], postController
 
 postRouter.delete('/delete', [checkAuth, validator(postIdValidator)], postControllerV2.deletePost);
 
-postRouter.get('/category/:category', postController.getPostByCategories);
+postRouter.get('/category', [checkAuth, validator(postCategoryValidator)], postControllerV2.getPostByCategories);
 
 postRouter.post('/comments', checkAuth, validator(commentvalidator), commentController.postComments);
 postRouter.get('/comments/:id', commentController.getComments);
