@@ -13,9 +13,9 @@ const commentSchema = mongoose.Schema({
   },
   email: {
     required: true,
-    type: String,
-    },
-  articleId: {
+    type: String
+  },
+  postId: {
     required: true,
     type: String
   },
@@ -24,7 +24,7 @@ const commentSchema = mongoose.Schema({
     type: String
   }
 
-}, { timeStamps: true });
+}, { timeStamps: true, versionKey: false });
 
 const commentModel = mongoose.model('Comments', commentSchema);
 export default commentModel;

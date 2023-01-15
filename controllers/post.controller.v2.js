@@ -99,12 +99,12 @@ class PostController2 {
   }
 
   async getPostByCategories(req, res) {
-    const post = await postService.getPostByCategory(req.params.category);
+    const post = await postService.getPostByCategory(req.body.category);
 
     if (!post) {
       res.status(404).send({
         status: false,
-        message: 'category does not exist'
+        message: 'no post exists with this category'
       });
     }
     res.status(200).send({

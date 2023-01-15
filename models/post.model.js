@@ -4,7 +4,6 @@ const postSchema = mongoose.Schema({
   title: {
     required: true,
     type: String
-
   },
 
   views: {

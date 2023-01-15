@@ -27,6 +27,4 @@ postRouter.get('/category/:category', postController.getPostByCategories);
 postRouter.post('/comments', checkAuth, validator(commentvalidator), commentController.postComments);
 postRouter.get('/comments/:id', commentController.getComments);
 
-postRouter.delete('/:id', postController.deletePost);
-
 export default postRouter;
