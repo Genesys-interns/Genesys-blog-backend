@@ -114,7 +114,7 @@ class PostController2 {
   }
 
   async deletePost(req, res) {
-    const post = await postService.findAndDeletePostById(req.params.id);
+    const post = await postService.findAndDeletePostById(req.body.id);
     if (_.isEmpty(post)) {
       res.status(404).send({
         status: false,
