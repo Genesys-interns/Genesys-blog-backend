@@ -159,12 +159,10 @@ class PostController2 {
   async getPostById(req, res) {
     const posts = await postService.getPostById(req.body.id);
     if (_.isEmpty(posts)) {
-      return res.status(404).send({ status: false, body: 'no post found' });
-    }
-    if (req.userData === undefined || req.userData !== req.posts.userId) {
-      return res
-        .status(404)
-        .send({ status: false, message: 'user does not have access to this post' });
+      return res.status(404).send({
+        status: false,
+        body: 'Post does not exist'
+      });
     }
 
     return res.status(200).send({
