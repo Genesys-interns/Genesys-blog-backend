@@ -16,7 +16,7 @@ postRouter.post('/create', [checkAuth, upload.single('image')], postControllerV2
 
 postRouter.get('/', postControllerV2.getPosts);
 
-postRouter.get('/id', [checkAuth, validator(postIdValidator)], postControllerV2.getPostById);
+postRouter.get('/getbyid', [checkAuth, validator(postIdValidator)], postControllerV2.getPostById);
 
 postRouter.post('/like', [checkAuth, validator(postIdValidator)], postControllerV2.like);
 
