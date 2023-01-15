@@ -18,6 +18,8 @@ postRouter.get('/', postControllerV2.getPosts);
 
 postRouter.get('/id', [checkAuth, validator(postIdValidator)], postControllerV2.getPostById);
 
+postRouter.post('/like', [checkAuth, validator(postIdValidator)], postControllerV2.like);
+
 postRouter.get('/category/:category', postController.getPostByCategories);
 
 postRouter.post('/comments', checkAuth, validator(commentvalidator), commentController.postComments);
