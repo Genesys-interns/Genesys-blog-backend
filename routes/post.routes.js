@@ -7,7 +7,7 @@ import commentController from '../controllers/comment.controller.js';
 import checkAuth from '../middlewares/auth.middleware.js';
 import commentvalidator from '../validators/comment.validator.js';
 import postControllerV2 from '../controllers/post.controller.v2.js';
-import { postCategoryValidator, postIdValidator } from '../validators/post.validator.js';
+import { postCategoryValidator, postIdValidator, postTitleValidator } from '../validators/post.validator.js';
 
 const postRouter = express.Router();
 
@@ -18,6 +18,8 @@ postRouter.get('/', postControllerV2.getPosts);
 postRouter.get('/getbyid', [checkAuth, validator(postIdValidator)], postControllerV2.getPostById);
 
 postRouter.post('/like', [checkAuth, validator(postIdValidator)], postControllerV2.like);
+
+postRouter.get('/findbytitle', [checkAuth, validator(postTitleValidator)], postControllerV2.postByTitle);
 
 postRouter.delete('/delete', [checkAuth, validator(postIdValidator)], postControllerV2.deletePost);
 

@@ -11,6 +11,7 @@ const postvalidator = Joi.object({
   isPublished: Joi.string().required(),
   userId: Joi.string()
 });
+
 export const postvalidator2 = Joi.object({
   title: Joi.string().required(),
   category: Joi.string().required(),
@@ -33,4 +34,7 @@ export const postCategoryValidator = Joi.object({
   category: Joi.string().required()
 });
 
+export const postTitleValidator = Joi.object({
+  title: Joi.string().required()
+});
 export default postvalidator;
