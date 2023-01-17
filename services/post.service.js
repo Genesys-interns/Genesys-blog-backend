@@ -29,8 +29,8 @@ class PostService {
     return posts;
   }
 
-  async findByTitle(title) {
-    const post = await postModel.find({ title });
+  async findByTitle(data) {
+    const post = await postModel.find({ title: data });
     return post;
   }
 

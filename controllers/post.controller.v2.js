@@ -82,19 +82,19 @@ class PostController2 {
     });
   }
 
-  async articleByTitle(req, res) {
-    const article = await postService.findByTitle(req.params.title);
+  async postByTitle(req, res) {
+    const post = await postService.findByTitle(req.body.title);
 
-    if (!article) {
+    if (!post) {
       return res.status(404).send({
         success: false,
-        message: 'Could not find the requested article'
+        message: 'No post with this title exists'
       });
     }
 
     return res.status(201).send({
       success: true,
-      data: article
+      data: post
     });
   }
 
