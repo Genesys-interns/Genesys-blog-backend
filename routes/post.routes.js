@@ -19,7 +19,7 @@ postRouter.get('/getbyid', [checkAuth, validator(postIdValidator)], postControll
 
 postRouter.post('/like', [checkAuth, validator(postIdValidator)], postControllerV2.like);
 
-postRouter.get('/getbytitle', [checkAuth, validator(postTitleValidator)], postControllerV2.postByTitle);
+postRouter.get('/title', [checkAuth, validator(postTitleValidator)], postControllerV2.postByTitle);
 
 postRouter.delete('/delete', [checkAuth, validator(postIdValidator)], postControllerV2.deletePost);
 
