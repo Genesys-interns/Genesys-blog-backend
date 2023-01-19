@@ -71,6 +71,42 @@ class PostController2 {
     });
   }
 
+  async updateTitle(req, res) {
+    const post = await postService.getPostById(req.body.id);
+    const newTitle = req.body.title;
+    if (_.isEmpty(post)) {
+      return res.status(404).send({
+        success: false,
+        message: 'Post with this Id does not exist.'
+      });
+    }
+    if (post) {
+      await post.updateOne({ title: newTitle });
+    }
+    return res.status(200).send({
+      success: true,
+      message: `Your new post title is ${post.title}`
+    });
+  }
+
+  async updatePostBody(req, res) {
+    const post = await postService.getPostById(req.body.id);
+    const newBody = req.body.body;
+    if (_.isEmpty(post)) {
+      return res.status(404).send({
+        success: false,
+        message: 'Post with this Id does not exist.'
+      });
+    }
+    if (post) {
+      await post.updateOne({ body: newBody });
+    }
+    return res.status(200).send({
+      success: true,
+      message: 'Post body was updated successfully'
+    });
+  }
+
   async getPosts(req, res) {
     const post = await postService.getPost();
     if (_.isEmpty(post)) {
