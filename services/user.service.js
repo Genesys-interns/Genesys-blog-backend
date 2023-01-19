@@ -34,6 +34,10 @@ class UserService {
     const user = await User.findOne(filter);
     return user;
   }
+  async findAll() {
+    const user = await User.find();
+    return user;
+  }
 }
 
 export default new UserService();

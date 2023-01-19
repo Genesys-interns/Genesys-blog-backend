@@ -17,14 +17,7 @@ const middleware = (app) => {
   app.use(express.static('uploads'));
   app.use(cors());
   database();
-
-  // app.use(session({ secret: 'SECRET' }));
-  // app.use(passport.initialize());
-  // app.use(passport.session());
   app.use(router);
-
-  // app.use(passport.initialize());
-
   app.use('*', (req, res) => {
     res.status(200).send('Server is up and running,check the API documentation');
   });

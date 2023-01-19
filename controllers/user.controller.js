@@ -147,6 +147,20 @@ class UserController {
       message: 'Account Verified'
     });
   }
+
+  async getUsers(req, res) {
+    const users = await UserService.findAll();
+    if (_.isEmpty(users)) {
+      return res.status(200).send({
+        success: true,
+        message: 'No users found'
+      });
+    }
+    return res.status(200).send({
+      success: true,
+      data: users
+    });
+  }
 }
 
 export default new UserController();

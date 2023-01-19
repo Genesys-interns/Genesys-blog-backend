@@ -1,3 +1,5 @@
+/* eslint-disable import/no-named-as-default-member */
+/* eslint-disable import/no-cycle */
 /* eslint-disable quotes */
 /* eslint-disable import/no-duplicates */
 /* eslint-disable import/extensions */
@@ -28,6 +30,7 @@ userRouter.post("/login", [validator(validateUserSignInSchema)], userController.
 
 userRouter.get("/:id", userController.fetchUserDetails);
 userRouter.put("/image", checkAuth, upload.single('photo'), userController.updateUserPhoto);
+userRouter.get("/", userController.getUsers);
 
 userRouter.get('/verify/:token', userController.verify);
 export default userRouter;
