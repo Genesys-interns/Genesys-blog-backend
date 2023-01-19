@@ -6,12 +6,12 @@ const commentSchema = mongoose.Schema({
     type: String
 
   },
-  name: {
+  username: {
     required: true,
     type: String
 
   },
-  email: {
+  authoremail: {
     required: true,
     type: String
   },
@@ -19,7 +19,7 @@ const commentSchema = mongoose.Schema({
     required: true,
     type: String
   },
-  editorsId: {
+  authorId: {
     required: true,
     type: String
   }
